@@ -1,0 +1,19 @@
+--- 
+title: "Data Analysis & Visualization using R (1)"
+author: "Michiel Noback"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: "This gitbook accompanies the course Data Analysis & Visualization using R 1 (DAVuR1) of the minor Bioinformatics for Life Science Students. It is organized by the Hanze University of Applied Science."
+---
+
+# Prerequisites
+
+You should have R, RStudio and Tinytech or some other Latex alternative for your OS installed.
+
+For now, only the exercises have been ported from simple markdown documents. All other chapters are empty.
+
