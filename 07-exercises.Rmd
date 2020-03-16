@@ -158,8 +158,6 @@ Create a histogram of the wind speeds, and add a thick blue vertical line for th
 Use the `pairs()` function with argument `panel = panel.smooth` to plot all pairwise correlations between Ozon, Solar radiation, Wind and Temperature. Which pair shows the strongest correlation? Create a separate well annottaed scatterplot of this pair.
 
 
-
-
 #### Bird observations
 
 You will explore a bird observation dataset, downloaded from [GOLDEN GATE AUDUBON SOCIETY](http://goldengateaudubon.org/birding-resources/observations/). This file lists bird observations collected by this bird monitoring group in the San Fransisco Bay Area. I already cleaned it a bit and placed it [here](data/Observations-Data-2014.csv) 
