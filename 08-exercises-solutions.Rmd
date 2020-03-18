@@ -441,32 +441,32 @@ PS00018 <- "D[^W][DNS][^ILVFYW][DENSTG][DNQGHRK][^GP][LIVMC][DENQSTAGC].{2} [DE]
 
 
 
-### Fasta Headers
+### Fasta Headers  
 
-
-Now, given the fasta headers in [./data/fasta_headers.txt](./data/fasta_headers.txt)
-which you can simply load into a character vector using `readLines()`, extract the following.
+```{r}
+library(stringr)
+fasta_headers <- readLines("./data/fasta_headers.txt")
+```
 
 **A**  
 
-- Extract all complete organism names.
-- Extract all species-level organism names (omitting subspecies and strains etc). Use `stringr::str_match()` for this use case.
-
-```{r}
-fasta_headers <- readLines("./data/fasta_headers.txt")
-
-stringr::str_match(fasta_headers, "\\[(.+)\\]")[, 2]
-
+```{r eval = FALSE}
+str_match(fasta_headers, "\\[(.+)\\]")[, 2]
+str_match(fasta_headers, "\\[([[:alpha:]]+ [[:alpha:]]+) ?(.+)?\\]")[, 2]
 ```
-
 
 **B**  
 
-Extract all protein names.
+```{r eval = FALSE}
+str_match(fasta_headers, ">([[:alpha:]]{2,3}\\|\\w+)\\|")[, 2]
+```
 
 **C**  
 
-**[challenge]** Extract all **_first_** database identifiers. So in this header element `>gi_15925739|ref_NP_373272.1|` you should extract only `gi_15925739`
+```{r eval = FALSE}
+str_match(fasta_headers, ">.+\\| (.+?) \\[")[, 2]
+```
+
 
 
 ## Scripting

@@ -275,40 +275,43 @@ As you can see there are several distinct elements within the Fasta **_header_**
 Here is a small example:
 
 ```{r stringr-demo}
+library(stringr)
 hinfII_re <- "GA[GATC]TC"
 sequences <- c("GGGAATCC", "TCGATTCGC", "ACGAGTCTA")
-stringr::str_extract(string = sequences, 
-                     pattern = hinfII_re)
+str_extract(string = sequences,
+            pattern = hinfII_re)
 ```
 
-Function `str_extract()` simply extracts the exact match of your regex (shown above). Function `str_match()` supports **_capture grouping_** through bounding parentheses:
+Function `str_extract()` simply extracts the exact match of your regex (shown above). On the other hand, function `str_match()` supports **_grouping capture_** through bounding parentheses:
 
 ```{r}
 phones <- c("+31-6-23415239", "+49-51-55523146", "+31-50-5956566")
-phones_re <- "\\+(\\d{2})" #catching country codes
-str_match(phones, phones_re) 
+phones_re <- "\\+(\\d{2})-(\\d{1,2})" #matching country codes and area codes
+matches <- str_match(phones, phones_re) 
+matches
 ```
 
+Thus, each set of parentheses will yield a column in the returned matrix. Simply use its column index to get that resultset:
 
-
-
+```{r}
+matches[, 2] ##the country codes
+```
 
 Now, given the fasta headers in [./data/fasta_headers.txt](./data/fasta_headers.txt)
 which you can simply load into a character vector using `readLines()`, extract the following.
 
 **A**  
 
-- Extract all complete organism names.
-- Extract all species-level organism names (omitting subspecies and strains etc). Use `stringr::str_match()` for this use case.
+- Extract all complete organism names.  
+- Extract all species-level organism names (omitting subspecies and strains etc).  
 
 **B**  
 
-Extract all protein names.
+Extract all **_first_** database identifiers. So in this header element `>gi|224017144|gb|EEF75156.1|` you should extract only `gi|224017144`
 
 **C**  
 
-**[challenge]** Extract all **_first_** database identifiers. So in this header element `>gi_15925739|ref_NP_373272.1|` you should extract only `gi_15925739`
-
+Extract all protein names/descriptions.
 
 
 ## Scripting
