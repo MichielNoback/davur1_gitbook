@@ -128,7 +128,6 @@ print(my_prot)
 Make a modified copy of this code chunk in such a way that no spaces are present between the amino acid residues (use help on `paste()` to figure this out) and that single-letter codes of amino acids are used instead of three-letter codes.
 
 
-
 **B**  
 **[Challenge]** Here is a vector called `nuc_weights`. It holds the weights for the nucleotides A, C, G and U respectively. Make it a named vector, iterate `my_DNA` from the above code chunk and calculate its molecular weight. 
 
@@ -137,24 +136,28 @@ nuc_weights <- c(491.2, 467.2, 507.2, 482.2)
 ```
 
 
-
 ### airquality 
 
 The `airquality` dataset is also one of the datasets included in the `datasets` package. We'll explore this for a few questions.
 
 **A**  
+
 Create a scatterplot of Temperature as a function of Solar radiation. Is there, as you might naively expect, a strong correlation? You could use `cor.test()` to find out. Add a linear model using `lm()` to extend your plot.
 
 **B**  
+
 Create a boxplot-series of `Temp` as a function of `Month` (use `?boxplot` to find out how this works). What appears to be the warmest month?
 
 **C**  
+
 What date (day/month) has the lowest recorded temperature? Which the highest? Please give temperature values in Celcius, not Fahrenheit! (Yes, this is an extra challenge!)
 
 **D**  
+
 Create a histogram of the wind speeds, and add a thick blue vertical line for the value of the mean and a fat red line for the median (use `abline()` for this).
 
 **E**  
+
 Use the `pairs()` function with argument `panel = panel.smooth` to plot all pairwise correlations between Ozon, Solar radiation, Wind and Temperature. Which pair shows the strongest correlation in your opinion? Verify this using the `cor()` function after removing incomplete cases. Create a separate well annottated scatterplot of this pair.
 
 
@@ -224,8 +227,91 @@ Hint: use the function `unique()` here.
 **J [Challenge]**  
 This is a challenge exercise for those who like to grind their brains! Think of a strategy to "rescue" the NAs that appear after transforming "Number" to "Count". Hint: use `gsub()` or`grep()`
 
+## Regular Expressions
 
-## Flow control & Functions in R
+### Restriction enzymes
+
+**A**  
+
+The restriction enzyme PacI has the recognition sequence "TTAATTAA". Define (at least) three alternative regex patterns that will catch these sites. 
+
+**B**  
+
+The restriction enzyme SfiI has the recognition sequence "GGCCNNNNNGGCC".  Define (at least) three alternative regex patterns that will catch these sites. 
+
+### Prosite Patterns  
+
+**A**  
+
+The Prosite pattern PS00211 (ABC-transporter-1; https://prosite.expasy.org/PS00211) has the pattern:  
+"[LIVMFYC]-[SA]-[SAPGLVFYKQH]-G-[DENQMW]-[KRQASPCLIMFW]-[KRNQSTAVM]-[KRACLVM]-[LIVMFYPAN]-{PHY}-[LIVMFW]-[SAGCLIVP]-{FYWHP}-{KRHP}-[LIVMFYWSTA]." 
+Translate it into a regex pattern. Info on the syntax is here: https://prosite.expasy.org/prosuser.html#conv_pa 
+
+**B**  
+
+The Prosite pattern PS00018 (EF-hand calcium-binding domain; https://prosite.expasy.org/PS00018) has the pattern: 
+"D-{W}-[DNS]-{ILVFYW}-[DENSTG]-[DNQGHRK]-{GP}-[LIVMC]-[DENQSTAGC]-x(2)- [DE]-[LIVMFYW]." 
+Translate it into a regex pattern.  
+
+
+You could exercise more by simply browsing Prosite. Test your pattern by fetching the proteins referred to within the Prosite pattern details page.
+
+### Fasta Headers
+
+The fasta sequence format is a very common sequence file format used in molecular biology.
+It looks like this (I omitted most of the actual protein sequences for better representation):
+
+```
+>gi|21595364|gb|AAH32336.1| FHIT protein [Homo sapiens]
+MSFRFGQHLIK...ALRVYFQ
+>gi|15215093|gb|AAH12662.1| Fhit protein [Mus musculus]
+MSFRFGQHLIK...RVYFQA
+>gi|151554847|gb|AAI47994.1| FHIT protein [Bos taurus]
+MSFRFGQHLIK...LRVYFQ
+```
+
+As you can see there are several distinct elements within the Fasta **_header_** which is the description line above the actual sequence: one or more database identification strings, a protein description or name and an organism name. Study the format - we are going to extract some elements from these fasta headers using the `stringr` package. Install it if you don't have it yet.
+
+Here is a small example:
+
+```{r stringr-demo}
+hinfII_re <- "GA[GATC]TC"
+sequences <- c("GGGAATCC", "TCGATTCGC", "ACGAGTCTA")
+stringr::str_extract(string = sequences, 
+                     pattern = hinfII_re)
+```
+
+Function `str_extract()` simply extracts the exact match of your regex (shown above). Function `str_match()` supports **_capture grouping_** through bounding parentheses:
+
+```{r}
+phones <- c("+31-6-23415239", "+49-51-55523146", "+31-50-5956566")
+phones_re <- "\\+(\\d{2})" #catching country codes
+str_match(phones, phones_re) 
+```
+
+
+
+
+
+Now, given the fasta headers in [./data/fasta_headers.txt](./data/fasta_headers.txt)
+which you can simply load into a character vector using `readLines()`, extract the following.
+
+**A**  
+
+- Extract all complete organism names.
+- Extract all species-level organism names (omitting subspecies and strains etc). Use `stringr::str_match()` for this use case.
+
+**B**  
+
+Extract all protein names.
+
+**C**  
+
+**[challenge]** Extract all **_first_** database identifiers. So in this header element `>gi_15925739|ref_NP_373272.1|` you should extract only `gi_15925739`
+
+
+
+## Scripting
 
 This section serves you some exercises that will help you improve your function-writing skills.
 
@@ -233,22 +319,33 @@ This section serves you some exercises that will help you improve your function-
 
 As an exercise, you will re-invent the wheel here for some statistical functions.
 
-
-#### The mean   
+#### The mean {-}   
 
 Create a function, `my_mean()`, that duplicates the R function `mean()`, i.e. calculates and returns the mean of a vector of numbers, without actually using `mean()`. 
 
-```{r}
-#<YOUR CODE HERE>
-```
-
-#### Standard deviation
+#### Standard deviation {-}
 
 Create a function, `my_sd()`, that duplicates the R function `sd()`, i.e. calculates and returns the standard deviation of a vector of numbers, without actually using `sd()`. 
 
-#### Median 
+
+#### Median {-}  
 
 **[Challenge]** Create a function, `my_median()`, that duplicates the R function `median()`, i.e. calculates and returns the median of a vector of numbers. This is actually a bit harder than you might expect. Hint: use the `sort()` function.
+
+
+### Vector distance
+
+Create a function, `distance(p, q)`, that will calculate and return the Euclidean distance between two vectors of equal length. A numeric vector can be seen as a point in multidimensional space. Euclidean distance is defined as
+
+$$d(p, q) = \sqrt{\sum_{i = 1}^{n}(q_i-p_i)^2}$$
+Where _p_ and _q_ are the two vectors and _n_ the length of the two vectors.  
+You should first perform a check whether the two vectors are of equal length and both of type `numeric` or `integer`. If not, the functio  should abort with an appropriate error message.
+
+
+#### Other distance measures {-}
+
+Extend the function of the previous assignment in such a way that a third argument is accepted, `method = `, which defaults to "euclidean". Other possible distance measures are "Manhattan" (same as "city block" and "taxicab") and Pearson correlation. Look the equations for these up in Wikipedia or some other place.
+
 
 ### G/C percentageof DNA
 
@@ -291,7 +388,6 @@ Using `apply()`, calculate the ratio of $Se_{tooth} / Se_{liver}$ and attach it 
 Using `print()` and `paste()`, report the mean and the standard deviation of the ratio column, but do this with an inline expression, e.g. an expression embedded in the Rmarkdown paragraph text.
 
 
-
 ### ChickWeight 
 
 This exercise revolves around the `ChickWeight` dataset of the built-in `datasets` package. 
@@ -299,38 +395,16 @@ This exercise revolves around the `ChickWeight` dataset of the built-in `dataset
 **A**  
 Report the number of chickens used in the experiment. 
 
-```{r}
-#MANY WAYS TO GET THERE
-length(split(ChickWeight, ChickWeight$Chick))
-#OR
-sum(tapply(ChickWeight$Diet, ChickWeight$Chick, FUN = function(x){1}))
-#OR
-length(unique(ChickWeight$Chick))
-#OR
-nrow(aggregate(x = ChickWeight, by = list(ChickWeight$Chick), FUN = function(x){x}))
-```
-
 **B**  
 Use `aggregate()` to get the mean weight of the chickens for the different Diets. 
 
-```{r}
-aggregate(formula = weight ~ Diet, data=ChickWeight, FUN = mean, na.rm = T)
-#OR
-aggregate(x = ChickWeight$weight, by = list(Diet = ChickWeight$Diet), FUN = mean, na.rm = T)
-```
-
 **C**  
 Use `coplot()` to plot a panel with weight as function of Time, split over Diet. 
-
-```{r}
-coplot(weight ~ Time | Diet, data = ChickWeight, panel = panel.smooth)
-```
 
 **D**  
 
 Add a column called `weight_gain` to the dataframe holding values for the weight gain since the last measurement. Take special care with rows marking the boundaries between indivivdual chickens! You could consider using a traditional for loop here.
 In the next course, we'll see a more efficient way of doing this.
-
 
 **E**  
 
@@ -347,10 +421,6 @@ load(local_file)
 
 Create a (single-panel) boxplot for weight gain, split over Diet. Hint: read the `boxplot()` help page!
 
-```{r fig.width = 4.5, fig.height = 3.5}
-boxplot(weight.gain ~ Diet, data = ChickWeight)
-```
-
 
 ### Food constituents 
 
@@ -360,20 +430,9 @@ The [food constituents dataset](https://raw.githubusercontent.com/MichielNoback/
 
 Load the data and report the different food categories (`Type`). Also report the numbers of entries for each Type.
 
-```{r}
-foods <- read.table(
-    "https://raw.githubusercontent.com/MichielNoback/davur1_gitbook/master/data/food_constituents.txt", header = T)
-levels(foods$Type)
-table(foods$Type)
-```
-
 **B**  
 
 What is the mean energy content of chocolate foods?
-
-```{r}
-mean(foods[foods$Type == "chocolate", "kcal"])
-```
 
 **C**  
 
@@ -396,76 +455,22 @@ Assuming both unsaturated fats and sugar are bad for you, what food category do 
 
 This exercise revisits the bird observations dataset. You can download it [here](data/Observations-Data-2014.csv). (Re)load the dataset.
 
-```{r}
-##reload the data
-bird_obs <- read.table("data/Observations-Data-2014.csv",
-                sep=";",
-                head=T,
-                na.strings = "",
-                quote = "",
-                comment.char = "",
-                as.is = c(1, 6, 7, 8, 13))
-bird_obs$Count <- as.integer(bird_obs$Number)
-```
-
-
 **A**  
 
 Report the number of observations per `County`. Use both a textual as a barplot representation. With the barplot, you should order the bars according to observation numbers. 
-
-```{r, fig.width = 8, fig.height=5}
-c.split <- split(x = bird_obs, f = bird_obs$County)
-c.counts <- sapply(c.split, nrow)
-barplot(c.counts[order(c.counts, decreasing = T)],
-        main = "Bird observations per county",
-        ylab = "Observations",
-        las = 2)
-```
 
 **B**  
 
 Report the number of observations per `Observer.1` but only for observers with more than 10 observations, ordered from high to low observation count. Use `order()` to achieve this.
 
-```{r}
-obs.split <- split(x = bird_obs, f = bird_obs$Observer.1)
-obs.counts <- sapply(obs.split, nrow)
-obs.counts <- obs.counts[obs.counts > 10]
-obs.counts[order(obs.counts, decreasing = T)]
-```
-
 **C**  
 
 Which observer has the highest number of observations listed (and how many is that)? 
 
-```{r}
-obs.counts[order(obs.counts, decreasing = T)][1]
-```
-
 **D**  
 
 Report the different observed species (using `Common.name`) for each genus. **[Challenge]** Report only the 5 Genera with the highest number of observed species.  
-
-```{r}
-g.split <- split(bird_obs, bird_obs$Genus)
-g.species <- lapply(g.split, function(x) {
-    unique(x$Common.name)
-})
-#create ordering
-g.species.count <- sapply(g.species, length)
-g.order <- order(g.species.count, decreasing = T)
-#apply order to list and select only first five
-g.species[g.order[1:5]]
-```
-
 **E**  
-
 **[Challenge]** Create a Dataframe holding the number of birds per day (use Date.start) and plot it with date on the x-axis and number of birds on the y-axis. Hint: use `as.Date()` to convert the character date to a real date field. See this page how you can do that [Date Values](http://www.statmethods.net/input/dates.html).
 
 
-```{r}
-bird_obs$Date.start <- as.Date(bird_obs$Date.start, format = "%d-%b-%y")
-date.series <- aggregate(Count ~ Date.start, data = bird_obs, FUN = sum, na.rm = T)
-#2024 is an error input, remove it
-date.series <- date.series[1:nrow(date.series)-1, ]
-plot(x = date.series$Date.start, y = date.series$Count, ylim = c(0, 250))
-```
