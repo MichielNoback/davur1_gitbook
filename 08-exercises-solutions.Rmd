@@ -551,8 +551,153 @@ for (i in 1:nrow(ChickWeight)) {
         ChickWeight[i, "weight_gain"] <- ChickWeight$weight[i] - ChickWeight$weight[i-1] 
     }
 }
-#stored_weight_gain <- ChickWeight$weight_gain
-#save(stored_weight_gain, file = "./data/ChickWeight_weight_gain.Rdata")
 ```
+
+**E**  
+
+```{r eval = F}
+local_file <- "ChickWeight_weight_gain.Rdata"
+download.file(paste0("https://github.com/MichielNoback/davur1_gitbook/raw/master/data/", local_file), local_file)
+load(local_file)
+#attach
+ChickWeight$weight_gain <- stored.weight.gain
+```
+
+```{r eval = F}
+tapply(X = ChickWeight$weight_gain, INDEX = ChickWeight$Diet, FUN = mean, na.rm = T)
+#or with aggregate
+aggregate(formula = weight_gain ~ Diet, data = ChickWeight, FUN = median)
+#or with split and sapply
+sapply(split(ChickWeight[, "weight_gain"], ChickWeight$Diet), sd, na.rm = T)
+```
+
+**F**  
+
+```{r weight-gain-boxplot, out.width='80%', fig.asp=.75, fig.align='center'}
+boxplot(weight_gain ~ Diet, data = ChickWeight)
+```
+
+
+### Food constituents 
+
+**A**  
+
+```{r}
+foods <- read.table(
+    "https://raw.githubusercontent.com/MichielNoback/davur1_gitbook/master/data/food_constituents.txt", header = T)
+```
+
+```{r eval = FALSE}
+levels(foods$Type)
+table(foods$Type)
+```
+
+**B**  
+
+```{r eval = FALSE}
+mean(foods[foods$Type == "chocolate", "kcal"])
+```
+
+**C**  
+
+```{reval = FALSE}
+#aggregate over Type
+mean.fat <- aggregate(formula = fat.total ~ Type, data = foods, FUN = mean)
+#order and select first
+mean.fat[order(mean.fat$fat.total, decreasing = T)[1], ]
+```
+
+**D**  
+
+```{r eval = FALSE}
+mean.energy <- aggregate(formula = kcal ~ Type, data = foods, FUN = mean)
+mean.energy[order(mean.energy$kcal)[1], ]
+mean.energy[order(mean.energy$kcal, decreasing = T)[1], ]
+```
+
+**E**  
+
+```{r foods-boxplot, out.width='80%', fig.asp=.75, fig.align='center'}
+#more verbose means possible; this efficient way demonstrating use of %in%
+foods$solid.state <- !foods$Type %in% c("milk", "beverage")
+boxplot(formula = carb.sugar ~ solid.state, 
+        data = foods,
+        main = "Sugar content of foods categories", 
+        names = (c("Drink", "Solid")),
+        ylab = "Sugar (g/100g product)")
+```
+
+**F**  
+
+\[NO WORKED SOLUTION HERE\]
+
+
+### Bird observations revisited
+
+```{r eval = FALSE}
+bird_obs <- read.table("data/Observations-Data-2014.csv",
+                sep=";",
+                head=T,
+                na.strings = "",
+                quote = "",
+                comment.char = "",
+                as.is = c(1, 6, 7, 8, 13))
+bird_obs$Count <- as.integer(bird_obs$Number)
+```
+
+**A**  
+
+```{r bird-counts-barplot, out.width='80%', fig.asp=.75, fig.align='center'}
+c.split <- split(x = bird_obs, f = bird_obs$County)
+c.counts <- sapply(c.split, nrow)
+barplot(c.counts[order(c.counts, decreasing = T)],
+        main = "Bird observations per county",
+        ylab = "Observations",
+        las = 2)
+```
+
+**B**  
+
+```{r eval = FALSE}
+obs.split <- split(x = bird_obs, f = bird_obs$Observer.1)
+obs.counts <- sapply(obs.split, nrow)
+obs.counts <- obs.counts[obs.counts > 10]
+obs.counts[order(obs.counts, decreasing = T)]
+```
+
+**C**  
+
+```{r eval = FALSE}
+obs.counts[order(obs.counts, decreasing = T)][1]
+```
+
+**D**  
+
+```{r eval = FALSE}
+g.split <- split(bird_obs, bird_obs$Genus)
+g.species <- lapply(g.split, function(x) {
+    unique(x$Common.name)
+})
+#create ordering
+g.species.count <- sapply(g.species, length)
+g.order <- order(g.species.count, decreasing = T)
+#apply order to list and select only first five
+g.species[g.order[1:5]]
+```
+
+**E**  
+
+```{r eval = FALSE}
+bird_obs$Date.start <- as.Date(bird_obs$Date.start, format = "%d-%b-%y")
+date.series <- aggregate(Count ~ Date.start, data = bird_obs, FUN = sum, na.rm = T)
+#2024 is an error input, remove it
+date.series <- date.series[1:nrow(date.series)-1, ]
+plot(x = date.series$Date.start, y = date.series$Count, ylim = c(0, 250))
+```
+
+
+
+
+
 
 

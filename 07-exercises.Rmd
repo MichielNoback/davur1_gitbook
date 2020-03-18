@@ -332,9 +332,140 @@ Add a column called `weight_gain` to the dataframe holding values for the weight
 In the next course, we'll see a more efficient way of doing this.
 
 
+**E**  
+
+Split the `weight_gain` column on Diet and report the mean, median and standard deviation for each diet. 
+If you were not succesful in the previous question, load and attach the data from file `ChickWeight_weight_gain.Rdata` downloadable from [https://github.com/MichielNoback/davur1_gitbook/raw/master/data/ChickWeight_weight_gain.Rdata](https://github.com/MichielNoback/davur1_gitbook/raw/master/data/ChickWeight_weight_gain.Rdata). You can use this code chunk for downloading and loading the data into variable `stored_weight_gain`. Don't forget to attach the column to the data frame!
+
+```{r eval = F}
+local_file <- "ChickWeight_weight_gain.Rdata"
+download.file(paste0("https://github.com/MichielNoback/davur1_gitbook/raw/master/data/", local_file), local_file)
+load(local_file)
+```
+
+**F**  
+
+Create a (single-panel) boxplot for weight gain, split over Diet. Hint: read the `boxplot()` help page!
+
+```{r fig.width = 4.5, fig.height = 3.5}
+boxplot(weight.gain ~ Diet, data = ChickWeight)
+```
 
 
+### Food constituents 
+
+The [food constituents dataset](https://raw.githubusercontent.com/MichielNoback/davur1_gitbook/master/data/food_constituents.txt) holds information on ingredients for different foods. Individual foods are simply marked with an id. 
+
+**A**  
+
+Load the data and report the different food categories (`Type`). Also report the numbers of entries for each Type.
+
+```{r}
+foods <- read.table(
+    "https://raw.githubusercontent.com/MichielNoback/davur1_gitbook/master/data/food_constituents.txt", header = T)
+levels(foods$Type)
+table(foods$Type)
+```
+
+**B**  
+
+What is the mean energy content of chocolate foods?
+
+```{r}
+mean(foods[foods$Type == "chocolate", "kcal"])
+```
+
+**C**  
+
+What is the food category with the highest mean fat content?
+
+**D**  
+
+What food category has the highest mean energy content, and which has the lowest?
+
+**E**  
+
+**[Challenge]** Create a boxplot showing the difference in sugar content between drink and solid food.
+
+**F**  
+
+Assuming both unsaturated fats and sugar are bad for you, what food category do you consider the worst? Think of a means to answer this, explain it and carry it out.
 
 
+### Bird observations revisited
+
+This exercise revisits the bird observations dataset. You can download it [here](data/Observations-Data-2014.csv). (Re)load the dataset.
+
+```{r}
+##reload the data
+bird_obs <- read.table("data/Observations-Data-2014.csv",
+                sep=";",
+                head=T,
+                na.strings = "",
+                quote = "",
+                comment.char = "",
+                as.is = c(1, 6, 7, 8, 13))
+bird_obs$Count <- as.integer(bird_obs$Number)
+```
 
 
+**A**  
+
+Report the number of observations per `County`. Use both a textual as a barplot representation. With the barplot, you should order the bars according to observation numbers. 
+
+```{r, fig.width = 8, fig.height=5}
+c.split <- split(x = bird_obs, f = bird_obs$County)
+c.counts <- sapply(c.split, nrow)
+barplot(c.counts[order(c.counts, decreasing = T)],
+        main = "Bird observations per county",
+        ylab = "Observations",
+        las = 2)
+```
+
+**B**  
+
+Report the number of observations per `Observer.1` but only for observers with more than 10 observations, ordered from high to low observation count. Use `order()` to achieve this.
+
+```{r}
+obs.split <- split(x = bird_obs, f = bird_obs$Observer.1)
+obs.counts <- sapply(obs.split, nrow)
+obs.counts <- obs.counts[obs.counts > 10]
+obs.counts[order(obs.counts, decreasing = T)]
+```
+
+**C**  
+
+Which observer has the highest number of observations listed (and how many is that)? 
+
+```{r}
+obs.counts[order(obs.counts, decreasing = T)][1]
+```
+
+**D**  
+
+Report the different observed species (using `Common.name`) for each genus. **[Challenge]** Report only the 5 Genera with the highest number of observed species.  
+
+```{r}
+g.split <- split(bird_obs, bird_obs$Genus)
+g.species <- lapply(g.split, function(x) {
+    unique(x$Common.name)
+})
+#create ordering
+g.species.count <- sapply(g.species, length)
+g.order <- order(g.species.count, decreasing = T)
+#apply order to list and select only first five
+g.species[g.order[1:5]]
+```
+
+**E**  
+
+**[Challenge]** Create a Dataframe holding the number of birds per day (use Date.start) and plot it with date on the x-axis and number of birds on the y-axis. Hint: use `as.Date()` to convert the character date to a real date field. See this page how you can do that [Date Values](http://www.statmethods.net/input/dates.html).
+
+
+```{r}
+bird_obs$Date.start <- as.Date(bird_obs$Date.start, format = "%d-%b-%y")
+date.series <- aggregate(Count ~ Date.start, data = bird_obs, FUN = sum, na.rm = T)
+#2024 is an error input, remove it
+date.series <- date.series[1:nrow(date.series)-1, ]
+plot(x = date.series$Date.start, y = date.series$Count, ylim = c(0, 250))
+```
