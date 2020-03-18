@@ -4,12 +4,12 @@ This chapter only contains exercises. The solutions are in the next chapter whic
 
 ## Basic R
 
-### Basic plotting
+### Plotting rules {-}
 
 With all plots, take care to adhere to the rules regarding titles and other decorations. Tip: the site [Quick-R](http://www.statmethods.net/) has nice detailed information with examples on the different plot types and their configuration. Especially the section [on plotting](http://www.statmethods.net/graphs/index.html) is helpful for these assignments.
 
 
-#### Stair walking and heart rate 
+### Stair walking and heart rate 
 
 The vectors below hold data for a staircase walking experiment. A subject of normal weight and height was asked to ascend a (long) stairs wearing a heart-rate monitor. The subjects' heart was registered for different step heights. Create a **line plot** showing the dependence of heart rate (y axis) on stair height (x axis).
 
@@ -21,7 +21,7 @@ stair_height <- c(0, 5, 10, 15, 20, 25, 30, 35)
 heart_rate <- c(66, 65, 67, 69, 73, 79, 86, 97)
 ```
 
-#### More subjects
+### More subjects
 
 The experiment from the previous question was extended with three more subjects. One of these subjects was like the first of normal weight, whereas the two others were obese. The data are given below. Create a single **scatter plot** with connector lines between the points showing the data for all four subjects. Give the normal-weighted subjects a green line and symbol and the obese subjects a red line and symbol.  
 You can add new data series to a plot by using the `points(x, y)` function. Use the `ylim()` function to adjust the Y-axis range.
@@ -38,7 +38,7 @@ heart_rate_3 <- c(58, 60, 67, 71, 78, 89, 104, 121)
 heart_rate_4 <- c(69, 73, 77, 83, 88, 96, 102, 127)
 ```
 
-#### Chickens on a diet
+### Chickens on a diet
 
 The body weights of chicks were measured at birth and every second day thereafter until day 20. They were also measured on day 21. In the experiment there were four groups of chicks on different protein diets. Here are the data for the first four chicks. Chick one and two were on diet 1 and chick three and four were on diet 2. Create a single line plot showing the data for all four chicks. Give each chick its own color.
 
@@ -53,17 +53,17 @@ chick_4 <- c(41, 49, 61, 74, 98, 109, 128, 154, 192, 232, 280, 290)
 ```
 
 
-#### Chicken bar plot
+### Chicken bar plot
 
 With the data from the previous question, create a bar plot of the maximum weights of the chicks.
 
 
-#### Discoveries 
+### Discoveries 
 
-The R language comes with a wealth of datasets for you to use as practice materials. We will see several of these. One of these datasets is The Time-Series dataset called `discoveries` holding the numbers of "great" inventions and scientific discoveries in each year from 1860 to 1959. Type its name in the console to see it. Create plot(s) answering these two questions:  
+The R language comes with a wealth of datasets for you to use as practice materials. We will see several of these. One of these datasets is The Time-Series dataset called `discoveries` holding the numbers of "great" inventions and scientific discoveries in each year from 1860 to 1959. Type its name in the console to see it. Create plot(s) answering these questions:  
  
 **A**  
-What is the frequency distribution of numbers of discoveries per year? Use the `hist()` function for this.  
+What is the number of discoveries per year? Use the `barplot()` and `table()` functions for this.  
 
 **B**  
 What is the 5-number summary of discoveries per year?  
@@ -74,7 +74,7 @@ What is the trend over time for the numbers of discoveries per year?
 PS: This is actually not a simple vector but a vector with some time-related attributes. It is called a Time-Series (a `ts` class), but this does not really matter for this assignment.
 
 
-#### Lung cancer  
+### Lung cancer  
 
 The R datasets package has three related timeseries datasets relating to lung cancer deaths. These are `ldeaths`, `mdeaths` and `fdeaths` for total, male and female deaths respectively. Create a line plot showing the monthly mortality holding all three of these datasets. Use the `legend()` function to add a legend to the plot, as demonstrated in this example:
 
@@ -130,7 +130,7 @@ Make a modified copy of this code chunk in such a way that no spaces are present
 
 
 **B**  
-**[Challenge]** Here is a vector called `nuc_weights`. It holds the weights for the nucleotides A, C, G and U respectively. Make it a named vector and iterate `my_DNA` from the above code chunk and calculate the molecular weight of the protein it encodes. This is a two-step process: look up and use the result to look up. 
+**[Challenge]** Here is a vector called `nuc_weights`. It holds the weights for the nucleotides A, C, G and U respectively. Make it a named vector, iterate `my_DNA` from the above code chunk and calculate its molecular weight. 
 
 ```{r eval = F}
 nuc_weights <- c(491.2, 467.2, 507.2, 482.2)
@@ -143,7 +143,7 @@ nuc_weights <- c(491.2, 467.2, 507.2, 482.2)
 The `airquality` dataset is also one of the datasets included in the `datasets` package. We'll explore this for a few questions.
 
 **A**  
-Create a scatterplot of Temperature as a function of Solar radiation. Is there, as you might naively expect, a strong correlation? Add a linear model using `lm()` to extend your plot.
+Create a scatterplot of Temperature as a function of Solar radiation. Is there, as you might naively expect, a strong correlation? You could use `cor.test()` to find out. Add a linear model using `lm()` to extend your plot.
 
 **B**  
 Create a boxplot-series of `Temp` as a function of `Month` (use `?boxplot` to find out how this works). What appears to be the warmest month?
@@ -155,17 +155,186 @@ What date (day/month) has the lowest recorded temperature? Which the highest? Pl
 Create a histogram of the wind speeds, and add a thick blue vertical line for the value of the mean and a fat red line for the median (use `abline()` for this).
 
 **E**  
-Use the `pairs()` function with argument `panel = panel.smooth` to plot all pairwise correlations between Ozon, Solar radiation, Wind and Temperature. Which pair shows the strongest correlation? Create a separate well annottaed scatterplot of this pair.
+Use the `pairs()` function with argument `panel = panel.smooth` to plot all pairwise correlations between Ozon, Solar radiation, Wind and Temperature. Which pair shows the strongest correlation in your opinion? Verify this using the `cor()` function after removing incomplete cases. Create a separate well annottated scatterplot of this pair.
 
 
-#### Bird observations
+### Bird observations
 
-You will explore a bird observation dataset, downloaded from [GOLDEN GATE AUDUBON SOCIETY](http://goldengateaudubon.org/birding-resources/observations/). This file lists bird observations collected by this bird monitoring group in the San Fransisco Bay Area. I already cleaned it a bit and placed it [here](data/Observations-Data-2014.csv) 
+You will explore a bird observation dataset, downloaded from [GOLDEN GATE AUDUBON SOCIETY](http://goldengateaudubon.org/birding-resources/observations/). This file lists bird observations collected by this bird monitoring group in the San Fransisco Bay Area. I already cleaned it a bit and placed it here: [data/Observations-Data-2014.csv](data/Observations-Data-2014.csv).  
+
+You can download it as follows:
+
+```{r eval = FALSE}
+file_name <- "Observations-Data-2014.csv"
+remote_url <- paste0("https://raw.githubusercontent.com/MichielNoback/davur1_gitbook/master/data/", file_name)
+
+download.file(url = remote_url, destfile = file_name)
+```
+
 
 Load the observation data into R and assign it to a variable called `bird_obs`.
 
-```{r eval=TRUE}
+From here on, it is assumed that you have the dataframe `bird_obs` loaded. This series of exercises deals with cleaning and transforming data, and exploring a cleaned dataset using basic plotting techniques and descriptive statistics.
+
+**A**  
+First, explore the raw data as they are. 
+
+- What data on bird observations were recorded (i.e. what kind of variables do you have)?
+- What did R do to the original column names?
+- Are all column names clear to you?
+ 
+**B**  
+How many bird observations were recorded?
+
+**C**  
+The column holding observation "Number" is actually not a number. Into what type has R converted it?
+
+**D**  
+Convert the "Number" column into an integer column using `as.integer()`, but assign it to a new column called "Count" (i.e. do not overwrite the original values). Compare the first 50 values or so of these two columns. What happened to the data? Is this OK?
+
+**E**  
+The previous question has shown that converting factors to numbers is a bit dangerous. It is often easiest to convert characters to numbers. The best way to do this is by using the `as.is = c(<column indices>)` argument for the `read.table()` function. 
+
+So, which columns should be loaded as real factor data and which as plain character data? Use `read.table()` and the `as.is` argument to reload the data, and then transform the `Number` column to integer again as `Count`. 
+
+**F**  
+Compare the first 50 values of the Number and Count columns again. Has the conversion succeeded? How many `Number` values could not be transformed into an integer value? Hint: use `is.na()`
+
+**G**  
+Explore the sighting counts:
+
+- What is the maximum number of birds in a single sighting? (Use max() and which() or is.na() to solve this)
+- What is the mean sighting count
+- What is the median of the sighting count
+
+**H**  
+Is the `Count` variable a normal distributed value? You can use `hist(...)`, `table()` or `plot(density(...))` to explore this further.
+
+
+**I**  
+Explore the species constitution: 
+
+- How many different species were recorded?
+- How many genera do they constitute?
+- What species from the genus "Puffinus" have been observed?
+
+Hint: use the function `unique()` here.
+
+
+**J [Challenge]**  
+This is a challenge exercise for those who like to grind their brains! Think of a strategy to "rescue" the NAs that appear after transforming "Number" to "Count". Hint: use `gsub()` or`grep()`
+
+
+## Flow control & Functions in R
+
+This section serves you some exercises that will help you improve your function-writing skills.
+
+### Illegal reproductions
+
+As an exercise, you will re-invent the wheel here for some statistical functions.
+
+
+#### The mean   
+
+Create a function, `my_mean()`, that duplicates the R function `mean()`, i.e. calculates and returns the mean of a vector of numbers, without actually using `mean()`. 
+
+```{r}
 #<YOUR CODE HERE>
 ```
 
-From here on, it is assumed that you have the dataframe `bird_obs` loaded. This series of exercises deals with cleaning and transforming data, and exploring a cleaned dataset using basic plotting techniques and descriptive statistics.
+#### Standard deviation
+
+Create a function, `my_sd()`, that duplicates the R function `sd()`, i.e. calculates and returns the standard deviation of a vector of numbers, without actually using `sd()`. 
+
+#### Median 
+
+**[Challenge]** Create a function, `my_median()`, that duplicates the R function `median()`, i.e. calculates and returns the median of a vector of numbers. This is actually a bit harder than you might expect. Hint: use the `sort()` function.
+
+### G/C percentageof DNA
+
+**[Challenge XL]** Create a function, `GC_perc()`, that calculates and returns the GC percentage of a DNA or RNA sequence. Accept as input a sequence and a flag -`strict`- indicating whether other characters are accepted than core DNA/RNA (GATUC). If `strict = FALSE`, the percentage of other characters should be reported using a `warning()` call. If `strict = TRUE`, the function should terminate with an error message. Use `stop()` for this. `strict` should default to `TRUE`. NOTE, usage of `strict` can complicate things, so start with the core functionality!
+You can use `strsplit()` or `substr()` to get hold of individual sequence characters.
+
+## Function `apply` and its relatives
+
+In this section you will encounter some exercises revolving around the different flavours of apply.
+
+### Whale selenium 
+
+On the course website under [Resources](https://michielnoback.github.io/bincourses/course_contents/davur/resources.html) you will find a link to file `whale_selenium.txt`. You could download it into your working directory manually or use `download.file()` to obtain it. However, there is a third way to get its contents without actually downloading it as a local copy. You can read it directly using `read.table()` as shown here.
+
+```{r read-remote-file, eval = FALSE}
+whale_sel_url <- "https://raw.githubusercontent.com/MichielNoback/davur1/gh-pages/exercises/data/whale_selenium.txt"
+whale_selenium <- read.table(whale_sel_url,
+    header = T,
+    row.names = 1)
+```
+
+Note: when you are going to load a file many times it is probably better to store a local copy.
+
+**A**  
+
+Report the means of both columns using `apply()`.
+
+**B** 
+
+Report the standard deviation of both columns, using `apply()`
+
+**C**  
+
+Report the standard error of the mean of both columns, using `apply()` The SEM is calculated as $$\frac{sd}{\sqrt{n}}$$ where $sd$ is the sample standard deviation and $n$ the number of measurements. You should create the function calculating this statistic yourself.
+
+**D**  
+Using `apply()`, calculate the ratio of $Se_{tooth} / Se_{liver}$ and attach it to the `whale_selenium` dataframe as column `ratio`. Create a histogram of this ratio.
+
+**E**  
+Using `print()` and `paste()`, report the mean and the standard deviation of the ratio column, but do this with an inline expression, e.g. an expression embedded in the Rmarkdown paragraph text.
+
+
+
+### ChickWeight 
+
+This exercise revolves around the `ChickWeight` dataset of the built-in `datasets` package. 
+
+**A**  
+Report the number of chickens used in the experiment. 
+
+```{r}
+#MANY WAYS TO GET THERE
+length(split(ChickWeight, ChickWeight$Chick))
+#OR
+sum(tapply(ChickWeight$Diet, ChickWeight$Chick, FUN = function(x){1}))
+#OR
+length(unique(ChickWeight$Chick))
+#OR
+nrow(aggregate(x = ChickWeight, by = list(ChickWeight$Chick), FUN = function(x){x}))
+```
+
+**B**  
+Use `aggregate()` to get the mean weight of the chickens for the different Diets. 
+
+```{r}
+aggregate(formula = weight ~ Diet, data=ChickWeight, FUN = mean, na.rm = T)
+#OR
+aggregate(x = ChickWeight$weight, by = list(Diet = ChickWeight$Diet), FUN = mean, na.rm = T)
+```
+
+**C**  
+Use `coplot()` to plot a panel with weight as function of Time, split over Diet. 
+
+```{r}
+coplot(weight ~ Time | Diet, data = ChickWeight, panel = panel.smooth)
+```
+
+**D**  
+
+Add a column called `weight_gain` to the dataframe holding values for the weight gain since the last measurement. Take special care with rows marking the boundaries between indivivdual chickens! You could consider using a traditional for loop here.
+In the next course, we'll see a more efficient way of doing this.
+
+
+
+
+
+
+
+

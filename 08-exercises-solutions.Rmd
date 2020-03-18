@@ -1,1 +1,558 @@
 # Exercise solutions
+
+## Basic R
+
+### Plotting rules {-}
+
+Since everything needs to be done in a (corona virus induced) rush, plots may be (far) from perfect. Sorry about that.
+
+### Stair walking and heart rate 
+
+```{r stair-walking-exp-1, out.width='80%', fig.asp=.75, fig.align='center'}
+#number of steps on the stairs
+stair_height <- c(0, 5, 10, 15, 20, 25, 30, 35)
+#heart rate after ascending the stairs
+heart_rate <- c(66, 65, 67, 69, 73, 79, 86, 97)
+plot(heart_rate ~ stair_height,
+     main = "Heart rate versus stair height",
+     xlab = "number of steps",
+     ylab = "heart rate (beats/minute)",
+     type = "l",
+     lwd = 2,
+     col = "blue")
+```
+
+### More subjects
+
+```{r stair-walking-exp-2, out.width='80%', fig.asp=.75, fig.align='center'}
+#number of steps on the stairs
+stair_height <- c(0, 5, 10, 15, 20, 25, 30, 35)
+#heart rates for subjects with normal weight
+heart_rate_1 <- c(66, 65, 67, 69, 73, 79, 86, 97)
+heart_rate_2 <- c(61, 61, 63, 68, 74, 81, 89, 104)
+#heart rates for obese subjects
+heart_rate_3 <- c(58, 60, 67, 71, 78, 89, 104, 121)
+heart_rate_4 <- c(69, 73, 77, 83, 88, 96, 102, 127)
+plot(x = stair_height,
+     y = heart_rate_1,
+     main = "Heart rate vs stair height",
+     xlab = "number of steps",
+     ylab = "heart rate (beats/min.)",
+     type = "b",
+     lwd = 2,
+     col = "green",
+     ylim = c(55, 130))
+points(x = stair_height,
+     y = heart_rate_2,
+     col = "green",
+     type = "b",
+     lwd = 2)
+points(x = stair_height,
+     y = heart_rate_3,
+     col = "red",
+     type = "b",
+     lwd = 2)
+points(x = stair_height,
+     y = heart_rate_4,
+     col = "red",
+     type = "b",
+     lwd = 2)
+```
+
+### Chickens on a diet
+
+```{r chicken-diets1, out.width='80%', fig.asp=.75, fig.align='center'}
+
+time <- c(0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 21)
+chick_1 <- c(42, 51, 59, 64, 76, 93, 106, 125, 149, 171, 199, 205)
+chick_2 <- c(40, 49, 58, 72, 84, 103, 122, 138, 162, 187, 209, 215)
+chick_3 <- c(42, 53, 62, 73, 85, 102, 123, 138, 170, 204, 235, 256)
+chick_4 <- c(41, 49, 61, 74, 98, 109, 128, 154, 192, 232, 280, 290)
+
+plot(x = time, y = chick_1,
+     type = "l",
+     lwd = 2,
+     col = "blue",
+     ylim = c(40, 300))
+points(x = time, y = chick_2,
+     type = "l",
+     lwd = 2,
+     lty = 3,
+     col = "blue")
+points(x = time, y = chick_3,
+     type = "l",
+     lwd = 2,
+     lty = 1,
+     col = "red")
+points(x = time, y = chick_4,
+     type = "l",
+     lwd = 2,
+     lty = 3,
+     col = "red")
+```
+
+### Chicken bar plot
+
+```{r chicken-diets2, out.width='80%', fig.asp=.75, fig.align='center'}
+maxima <- c(max(chick_1), max(chick_2), max(chick_3), max(chick_4))
+
+barplot(maxima,
+  names = c("Chick 1","Chick 2","Chick 3","Chick 4"),
+  ylab = "Maximum weight (grams)",
+  col = "gold",
+  main = "Maximum chick weights")
+```
+
+### Discoveries 
+
+**A**  
+
+```{r discoveries-1, out.width='80%', fig.asp=.75, fig.align='center'}
+barplot(table(discoveries),
+  main = "great discoveries per year",
+  xlab = "number of discoveries",
+  ylab = "frequency",
+  col = "green")
+```
+
+**B**  
+
+```{r discoveries-2, eval = FALSE}
+summary(discoveries)
+```
+
+**C**  
+
+```{r discoveries-3, out.width='80%', fig.asp=.75, fig.align='center'}
+plot(discoveries,
+     xlab = "year",
+     ylab = "number of discoveries",
+     main = "Great discoveries",
+     col = "blue", 
+     lwd = 2)
+```
+
+
+### Lung cancer  
+
+**A**  
+
+```{r lung-cancer-1, out.width='80%', fig.asp=.75, fig.align='center'}
+total.col <- "red"
+m.col <- "blue"
+f.col <- "green"
+plot(ldeaths,
+     main = "deaths from lung cancer",
+     xlab = "year",
+     ylab = "number",
+     col = total.col,
+     ylim = c(0, 4000),
+     lwd = 2
+)
+lines(fdeaths, col = f.col, lwd = 2)
+lines(mdeaths, col = m.col, lwd = 2)
+legend(
+  "topleft", 
+  legend = c("total", "female", "male"), 
+  col = c(total.col, f.col, m.col), 
+  lty = 1)
+```
+
+**B**  
+Create a combined boxplot of the three time-series. Are they indicative of a normal distribution? Are there outliers? If so, can you figure out when this occurred?
+
+```{r lung-cancer-2, out.width='80%', fig.asp=.75, fig.align='center'}
+boxplot(
+  fdeaths, mdeaths, ldeaths
+)
+```
+
+
+## Complex datatypes
+
+### A dictionary with a named vector
+
+**A**  
+
+```{r named-vector-1}
+codons <- c("G", "P", "K", "S")
+names(codons) <- c("GGA", "CCU", "AAA", "AGU")
+
+my_DNA <- "GGACCUAAAAGU"
+my_prot <- ""
+for (i in seq(from = 1, to = nchar(my_DNA), by = 3)) {
+    codon <- substr(my_DNA, i, i+2)
+    my_prot <- paste0(my_prot, codons[codon])
+}
+print(my_prot)
+```
+
+**B**  
+
+```{r eval = F}
+nuc_weights <- c(491.2, 467.2, 507.2, 482.2)
+names(nuc_weights) <- c('A', 'C', 'G', 'U')
+
+mol_weight <- 0
+for (i in 1:nchar(my_DNA)) {
+    nuc <- substr(my_DNA, i, i);
+    print(nuc)
+    mol_weight <- mol_weight + nuc_weights[nuc]
+}
+mol_weight
+```
+
+
+### airquality 
+
+**A**  
+
+```{r airquality-1, out.width='80%', fig.asp=.75, fig.align='center'}
+plot(airquality$Solar.R, airquality$Temp,
+     main = "Temperature as a function of Solar radiation",
+     xlab = "Solar radiation (lang)",
+     ylab = "Temperature (F)")
+abline(lm(airquality$Temp ~ airquality$Solar.R), col = "blue", lwd = 2)
+```
+
+**B**  
+
+```{r airquality-2, out.width='80%', fig.asp=.75, fig.align='center'}
+with(airquality, 
+    boxplot(Temp ~ Month, 
+    main = "Temperature over the months",
+    xlab = "Month",
+    ylab = "Temperature (F)"))
+```
+
+**C**  
+
+```{r airquality-3, out.width='80%', fig.asp=.75, fig.align='center'}
+#first create Temp Celcius column:
+#(°F  -  32)  x  5/9 = °C
+airquality$Temp.C <- (airquality$Temp - 32) * 5/9
+#get the required data
+airquality[airquality$Temp.C == min(airquality$Temp.C), c("Temp.C", "Month", "Day")]
+```
+
+**D**  
+
+```{r airquality-4, out.width='80%', fig.asp=.75, fig.align='center'}
+hist(airquality$Wind, xlab = "Wind speed (mph)")
+abline(v = mean(airquality$Wind), col = "blue", lwd = 2)
+abline(v = median(airquality$Wind), col = "red", lwd = 2)
+```
+
+**E**  
+
+```{r airquality-5, out.width='80%', fig.asp=.75, fig.align='center'}
+pairs(airquality, panel = panel.smooth)
+```
+
+Calculate pairwise correlation.
+```{r airquality-cor, eval = FALSE}
+cor(na.omit(airquality))
+```
+
+
+### Bird observations
+
+```{r load-bird-observations}
+bird_obs <- read.table("data/Observations-Data-2014.csv", 
+                       sep=";", 
+                       head=T, 
+                       na.strings = "", 
+                       quote = "", 
+                       comment.char = "")
+```
+
+
+**A**  
+
+```{r, eval = FALSE}
+## look at the loaded data structure
+str(bird_obs)
+```
+
+Apparently, all variables are loaded as a factor; also the `Date.start`, `Date.end` (should be dates of course), `Number` (should be `integer`) and `Notes` (should be `character`) columns. In the original column names there are spaces and these are replaced by dots. First column `Species..` is a serial number and the second `Species` is the English species name.
+
+**B**  
+
+```{r, eval = FALSE}
+nrow(bird_obs)
+```
+
+**C**  
+
+```{r, eval = FALSE}
+class(bird_obs$Number)
+```
+
+**D**  
+
+```{r}
+bird_obs$Count <- as.integer(bird_obs$Number)
+head(bird_obs[, c(4, 8, 14)], n=50)
+```
+
+The factor **_levels_** have been converted into integers, not the original values!
+
+**E**  
+
+```{r}
+#read with as.is argument
+bird_obs <- read.table("data/Observations-Data-2014.csv",
+                sep=";",
+                head=T,
+                na.strings = "",
+                quote = "",
+                comment.char = "",
+                as.is = c(1, 6, 7, 8, 13))
+str(bird_obs)
+```
+
+Convert Number column to Count of integers.
+
+```{r}
+bird_obs$Count <- as.integer(bird_obs$Number)
+```
+
+Note that there are other ways to achieve this, e.g. the `colClasses` argument to `read.table()`.
+
+**F**  
+
+```{r, eval = FALSE}
+head(bird_obs[, c(4, 8, 14)], n=50)
+sum(is.na(bird_obs$Count))
+```
+
+**G**  
+
+```{r, eval = FALSE}
+#What is the maximum number of birds in a single sighting?
+bird_obs[which(bird_obs$Count == max(bird_obs$Count, na.rm = T)), ]
+##OR
+bird_obs[!is.na(bird_obs$Count) & bird_obs$Count == max(bird_obs$Count, na.rm = T), ]
+
+#What is the mean sighting count
+mean(bird_obs$Count, na.rm = T)
+
+#What is the median of the sighting count
+median(bird_obs$Count, na.rm = T)
+```
+
+**H**  
+
+```{r bird-obs-1, out.width='80%', fig.asp=.75, fig.align='center'}
+hist(bird_obs$Count)
+```
+
+Not very helpful, now is it? Try fiddling with the `breaks` argument.
+
+```{r bird-obs-2, out.width='80%', fig.asp=.75, fig.align='center'}
+plot(density(bird_obs$Count, na.rm=T),
+     main = "density of Counts")
+```
+
+Better results with a log transformation (and some coloring)
+
+```{r bird-obs-3, out.width='80%', fig.asp=.75, fig.align='center'}
+d <- density(log(bird_obs$Count), na.rm=T)
+plot(d, main = "density of log-transformed Counts")
+polygon(d, col = "red", border = "blue")
+```
+
+**I**  
+
+```{r, eval = FALSE}
+#How many different species were recorded?
+length(unique(bird_obs$Common.name))
+
+#How many genera do they constitute?
+length(unique(bird_obs$Genus))
+
+#What species from the genus "Puffinus" have been observed?
+#the actual sightings
+bird_obs[bird_obs$Genus == "Puffinus", c(2, 3, 4, 6, 14)]
+#the species
+unique(bird_obs[bird_obs$Genus == "Puffinus", "Common.name"])
+```
+
+**J**  
+
+```{r, eval = FALSE}
+#these are the values that need to be rescued:
+table(bird_obs[is.na(bird_obs$Count), "Number"])
+#I suggest you take the lowest of the range-like values: 
+#1-3 becomes 1; 2-3 becomes 2; 100s becomes 100 etc
+#then do something like
+tmp <- bird_obs$Number[1:50]
+tmp
+gsub("(\\d+)-(\\d+)", "\\1", tmp)
+```
+
+
+## Flow control & Functions in R
+
+### Illegal reproductions
+
+#### The mean
+
+```{r, eval = FALSE}
+my_mean <- function(x) {
+    sum(x, na.rm = T) / length(x)
+}
+``` 
+
+#### Standard deviation
+
+```{r, eval = FALSE}
+my_sd <- function(x) {
+    sqrt(sum((x - mean(x))^2)/(length(x)-1))
+}
+```
+
+#### Median 
+
+```{r, eval = FALSE}
+my_median <- function(x) {
+    sorted <- sort(x)
+    if(length(x) %% 2 == 1) {
+        #uneven length
+        my_median <- sorted[ceiling(length(x)/2)]
+    } else {
+        my_median <- (sorted[length(x)/2] + sorted[(length(x)/2)+1]) / 2
+    }
+    return(my_median)
+}
+```
+
+### G/C percentageof DNA
+
+```{r, eval = FALSE}
+GC_perc <- function(seq, strict = TRUE) {
+    if (is.na(seq)) {
+        return(NA)
+    }
+    if (length(seq) == 0) {
+        return(0)
+    }
+    seq.split <- strsplit(seq, "")[[1]]
+    gc.count <- 0
+    anom.count <- 0
+    for (n in seq.split) {
+        if (length(grep("[GATUCgatuc]", n)) > 0) {
+            if (n == "G" || n == "C") {
+                gc.count <- gc.count + 1
+            }
+        } else {
+            if (strict) {
+                stop(paste("Illegal character", n))
+            } else {
+                anom.count <- anom.count + 1   
+            }
+        }
+    }
+    ##return perc
+    ##print(gc.count)
+    if (anom.count > 0) {
+        anom.perc <- anom.count / nchar(seq) * 100
+        warning(paste("Non-DNA characters have percentage of", anom.perc))
+    }
+    return(gc.count / nchar(seq) * 100)
+}
+```
+
+
+
+## Function `apply` and its relatives
+
+### Whale selenium 
+
+**A**  
+
+```{r, eval = FALSE}
+apply(X = whale_selenium, MARGIN = 2, FUN = mean)
+```
+
+**B** 
+
+```{r, eval = FALSE}
+apply(X = whale_selenium, MARGIN = 2, FUN = sd)
+```
+
+
+**C**  
+
+```{r, eval = FALSE}
+my.sem <- function(x) {
+    sem <- sd(x) / sqrt(length(x))
+}
+apply(X = whale_selenium, MARGIN = 2, FUN = my.sem)
+```
+
+**D**  
+
+```{r whale-selenium-hist, out.width='80%', fig.asp=.75, fig.align='center'}
+whale_selenium$ratio <- apply(X = whale_selenium, 
+      MARGIN = 1, 
+      FUN = function(x){
+          x[2] / x[1]
+      })
+hist(whale_selenium$ratio,
+     xlab = "Tooth / Liver Selenium ratio",
+     main = "Histogram of Tooth / Liver Selenium ratios")
+```
+
+**E** 
+
+Inline expressions are like this: `r mean(cars$speed)` MpH.
+
+
+### ChickWeight 
+
+This exercise revolves around the `ChickWeight` dataset of the built-in `datasets` package. 
+
+**A**  
+
+```{r}
+#MANY WAYS TO GET THERE
+length(split(ChickWeight, ChickWeight$Chick))
+#OR
+sum(tapply(ChickWeight$Diet, ChickWeight$Chick, FUN = function(x){1}))
+#OR
+length(unique(ChickWeight$Chick))
+#OR
+nrow(aggregate(x = ChickWeight, by = list(ChickWeight$Chick), FUN = function(x){x}))
+```
+
+**B**  
+
+```{r}
+aggregate(formula = weight ~ Diet, data=ChickWeight, FUN = mean, na.rm = T)
+#OR
+aggregate(x = ChickWeight$weight, by = list(Diet = ChickWeight$Diet), FUN = mean, na.rm = T)
+```
+
+**C**  
+
+```{r}
+coplot(weight ~ Time | Diet, data = ChickWeight, panel = panel.smooth)
+```
+
+**D**  
+
+```{r}
+#A naive for-loop here - is this the best solution?
+ChickWeight$weight_gain <- NA #create the column with missing values
+for (i in 1:nrow(ChickWeight)) {
+    #skip first row and rows that are preceded by values for another chick
+    if (i > 1 && ChickWeight$Chick[i] == ChickWeight$Chick[i-1]) {
+        ChickWeight[i, "weight_gain"] <- ChickWeight$weight[i] - ChickWeight$weight[i-1] 
+    }
+}
+#stored_weight_gain <- ChickWeight$weight_gain
+#save(stored_weight_gain, file = "./data/ChickWeight_weight_gain.Rdata")
+```
+
+
