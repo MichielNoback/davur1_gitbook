@@ -13,13 +13,13 @@ With all plots, take care to adhere to the rules regarding titles and other deco
 
 The vectors below hold data for a staircase walking experiment. A subject of normal weight and height was asked to ascend a (long) stairs wearing a heart-rate monitor. The subjects' heart was registered for different step heights. Create a **line plot** showing the dependence of heart rate (y axis) on stair height (x axis).
 
-
 ```{r eval = F}
 #number of steps on the stairs
 stair_height <- c(0, 5, 10, 15, 20, 25, 30, 35)
 #heart rate after ascending the stairs
 heart_rate <- c(66, 65, 67, 69, 73, 79, 86, 97)
 ```
+
 
 ### More subjects
 
@@ -63,12 +63,15 @@ With the data from the previous question, create a bar plot of the maximum weigh
 The R language comes with a wealth of datasets for you to use as practice materials. We will see several of these. One of these datasets is The Time-Series dataset called `discoveries` holding the numbers of "great" inventions and scientific discoveries in each year from 1860 to 1959. Type its name in the console to see it. Create plot(s) answering these questions:  
  
 **A**  
+
 What is the number of discoveries per year? Use the `barplot()` and `table()` functions for this.  
 
 **B**  
+
 What is the 5-number summary of discoveries per year?  
 
 **C**  
+
 What is the trend over time for the numbers of discoveries per year?
 
 PS: This is actually not a simple vector but a vector with some time-related attributes. It is called a Time-Series (a `ts` class), but this does not really matter for this assignment.
@@ -89,15 +92,55 @@ legend("topleft", legend = c("series 1", "series 2"), col = c("black", "blue"), 
 ```
 
 **A**  
+
 Create the mentioned line plot. Do you see trends and/or patterns and if so, can you explain these?
 
 **B**  
+
 Create a combined boxplot of the three time-series. Are there outliers? If so, can you figure out when this occurred?
 
 
 ## Complex datatypes
 
 This section serves you some datatype challenges.
+
+### Creating factors
+
+**A**  
+
+Given this vector:
+
+```{r eval = FALSE}
+animal_risk <- c(2, 4, 1, 1, 2, 4, 1, 4, 1, 1, 2, 1)
+```
+
+and these possible levels:
+1: harmless
+2: risky
+3: dangerous
+4: deadly
+
+Create a factor from this data and then barplot the result.
+
+**B**  
+
+Given this data, a simulation of wealth distribution of "poor", "middle class", "wealthy" "rich:
+
+```{r eval = FALSE}
+set.seed(1234)
+wealth_male <- sample(x = letters[1:4], 
+                 size = 1000,
+                 replace= TRUE, 
+                 prob = c(0.7, 0.17, 0.12, 0.01))
+wealth_female <- sample(x = letters[1:4], 
+                 size = 1000,
+                 replace= TRUE, 
+                 prob = c(0.8, 0.15, 0.497, 0.003))
+```
+
+Create a factor from these two and report the cumulative percentage of its individual levels starting at the most abundant level, combined for male and female. Hint: use `table()` and `prop.table()`.
+
+Next, create a side-by-side barplot of this data. Don't forget the legend!
 
 
 ### A dictionary with a named vector
@@ -125,10 +168,12 @@ print(my_prot)
 
 
 **A**  
+
 Make a modified copy of this code chunk in such a way that no spaces are present between the amino acid residues (use help on `paste()` to figure this out) and that single-letter codes of amino acids are used instead of three-letter codes.
 
 
 **B**  
+
 **[Challenge]** Here is a vector called `nuc_weights`. It holds the weights for the nucleotides A, C, G and U respectively. Make it a named vector, iterate `my_DNA` from the above code chunk and calculate its molecular weight. 
 
 ```{r eval = F}
@@ -150,7 +195,7 @@ Create a boxplot-series of `Temp` as a function of `Month` (use `?boxplot` to fi
 
 **C**  
 
-What date (day/month) has the lowest recorded temperature? Which the highest? Please give temperature values in Celcius, not Fahrenheit! (Yes, this is an extra challenge!)
+What date (day/month) has the lowest recorded temperature? Which the highest? Please give temperature values in Celsius, not Fahrenheit! (Yes, this is an extra challenge!)
 
 **D**  
 
@@ -158,12 +203,12 @@ Create a histogram of the wind speeds, and add a thick blue vertical line for th
 
 **E**  
 
-Use the `pairs()` function with argument `panel = panel.smooth` to plot all pairwise correlations between Ozon, Solar radiation, Wind and Temperature. Which pair shows the strongest correlation in your opinion? Verify this using the `cor()` function after removing incomplete cases. Create a separate well annottated scatterplot of this pair.
+Use the `pairs()` function with argument `panel = panel.smooth` to plot all pairwise correlations between Ozone, Solar radiation, Wind and Temperature. Which pair shows the strongest correlation in your opinion? Verify this using the `cor()` function after removing incomplete cases. Create a separate well annotated scatterplot of this pair.
 
 
 ### Bird observations
 
-You will explore a bird observation dataset, downloaded from [GOLDEN GATE AUDUBON SOCIETY](http://goldengateaudubon.org/birding-resources/observations/). This file lists bird observations collected by this bird monitoring group in the San Fransisco Bay Area. I already cleaned it a bit and placed it here: [data/Observations-Data-2014.csv](data/Observations-Data-2014.csv).  
+You will explore a bird observation dataset, downloaded from [GOLDEN GATE AUDUBON SOCIETY](http://goldengateaudubon.org/birding-resources/observations/). This file lists bird observations collected by this bird monitoring group in the San Francisco Bay Area. I already cleaned it a bit and placed it here: [data/Observations-Data-2014.csv](data/Observations-Data-2014.csv).  
 
 You can download it as follows:
 
@@ -180,6 +225,7 @@ Load the observation data into R and assign it to a variable called `bird_obs`.
 From here on, it is assumed that you have the dataframe `bird_obs` loaded. This series of exercises deals with cleaning and transforming data, and exploring a cleaned dataset using basic plotting techniques and descriptive statistics.
 
 **A**  
+
 First, explore the raw data as they are. 
 
 - What data on bird observations were recorded (i.e. what kind of variables do you have)?
@@ -187,23 +233,29 @@ First, explore the raw data as they are.
 - Are all column names clear to you?
  
 **B**  
+
 How many bird observations were recorded?
 
 **C**  
+
 The column holding observation "Number" is actually not a number. Into what type has R converted it?
 
 **D**  
+
 Convert the "Number" column into an integer column using `as.integer()`, but assign it to a new column called "Count" (i.e. do not overwrite the original values). Compare the first 50 values or so of these two columns. What happened to the data? Is this OK?
 
 **E**  
+
 The previous question has shown that converting factors to numbers is a bit dangerous. It is often easiest to convert characters to numbers. The best way to do this is by using the `as.is = c(<column indices>)` argument for the `read.table()` function. 
 
 So, which columns should be loaded as real factor data and which as plain character data? Use `read.table()` and the `as.is` argument to reload the data, and then transform the `Number` column to integer again as `Count`. 
 
 **F**  
+
 Compare the first 50 values of the Number and Count columns again. Has the conversion succeeded? How many `Number` values could not be transformed into an integer value? Hint: use `is.na()`
 
 **G**  
+
 Explore the sighting counts:
 
 - What is the maximum number of birds in a single sighting? (Use max() and which() or is.na() to solve this)
@@ -211,10 +263,12 @@ Explore the sighting counts:
 - What is the median of the sighting count
 
 **H**  
+
 Is the `Count` variable a normal distributed value? You can use `hist(...)`, `table()` or `plot(density(...))` to explore this further.
 
 
 **I**  
+
 Explore the species constitution: 
 
 - How many different species were recorded?
@@ -226,6 +280,7 @@ Hint: use the function `unique()` here.
 
 **J [Challenge]**  
 This is a challenge exercise for those who like to grind their brains! Think of a strategy to "rescue" the NAs that appear after transforming "Number" to "Count". Hint: use `gsub()` or`grep()`
+
 
 ## Regular Expressions
 
@@ -291,7 +346,7 @@ matches <- str_match(phones, phones_re)
 matches
 ```
 
-Thus, each set of parentheses will yield a column in the returned matrix. Simply use its column index to get that resultset:
+Thus, each set of parentheses will yield a column in the returned matrix. Simply use its column index to get that result set:
 
 ```{r}
 matches[, 2] ##the country codes
@@ -336,13 +391,26 @@ Create a function, `my_sd()`, that duplicates the R function `sd()`, i.e. calcul
 **[Challenge]** Create a function, `my_median()`, that duplicates the R function `median()`, i.e. calculates and returns the median of a vector of numbers. This is actually a bit harder than you might expect. Hint: use the `sort()` function.
 
 
+### Interquantile ranges
+
+Create a function that will calculate a custom "interquantile range". The function should accept three arguments: a numeric vector, a lower quantile and an upper quantile. It should return the difference (range) between these two quantile values. The lower quantile should default to 0 and the higher to 1, thus returning `max(x)` minus `min(x)`. The function therefore has this "signature":
+
+```{r eval = FALSE}
+interquantile_range <- function(x, lower = 0, higher = 100) {}
+```
+
+Perform some tests on the arguments to make a robust method: are all arguments numeric?
+ 
+To test you method, you can compare `interquantile_range(some_vector, 0.25, 0.75)` with `IQR(some_vector)` - they should be the same.
+
+
 ### Vector distance
 
 Create a function, `distance(p, q)`, that will calculate and return the Euclidean distance between two vectors of equal length. A numeric vector can be seen as a point in multidimensional space. Euclidean distance is defined as
 
 $$d(p, q) = \sqrt{\sum_{i = 1}^{n}(q_i-p_i)^2}$$
 Where _p_ and _q_ are the two vectors and _n_ the length of the two vectors.  
-You should first perform a check whether the two vectors are of equal length and both of type `numeric` or `integer`. If not, the functio  should abort with an appropriate error message.
+You should first perform a check whether the two vectors are of equal length and both of type `numeric` or `integer`. If not, the function  should abort with an appropriate error message.
 
 
 #### Other distance measures {-}
@@ -350,14 +418,14 @@ You should first perform a check whether the two vectors are of equal length and
 Extend the function of the previous assignment in such a way that a third argument is accepted, `method = `, which defaults to "euclidean". Other possible distance measures are "Manhattan" (same as "city block" and "taxicab") and Pearson correlation. Look the equations for these up in Wikipedia or some other place.
 
 
-### G/C percentageof DNA
+### G/C percentage of DNA
 
 **[Challenge XL]** Create a function, `GC_perc()`, that calculates and returns the GC percentage of a DNA or RNA sequence. Accept as input a sequence and a flag -`strict`- indicating whether other characters are accepted than core DNA/RNA (GATUC). If `strict = FALSE`, the percentage of other characters should be reported using a `warning()` call. If `strict = TRUE`, the function should terminate with an error message. Use `stop()` for this. `strict` should default to `TRUE`. NOTE, usage of `strict` can complicate things, so start with the core functionality!
 You can use `strsplit()` or `substr()` to get hold of individual sequence characters.
 
 ## Function `apply` and its relatives
 
-In this section you will encounter some exercises revolving around the different flavours of apply.
+In this section you will encounter some exercises revolving around the different flavors of apply.
 
 ### Whale selenium 
 
@@ -385,10 +453,12 @@ Report the standard deviation of both columns, using `apply()`
 Report the standard error of the mean of both columns, using `apply()` The SEM is calculated as $$\frac{sd}{\sqrt{n}}$$ where $sd$ is the sample standard deviation and $n$ the number of measurements. You should create the function calculating this statistic yourself.
 
 **D**  
+
 Using `apply()`, calculate the ratio of $Se_{tooth} / Se_{liver}$ and attach it to the `whale_selenium` dataframe as column `ratio`. Create a histogram of this ratio.
 
 **E**  
-Using `print()` and `paste()`, report the mean and the standard deviation of the ratio column, but do this with an inline expression, e.g. an expression embedded in the Rmarkdown paragraph text.
+
+Using `print()` and `paste()`, report the mean and the standard deviation of the ratio column, but do this with an inline expression, e.g. an expression embedded in the R markdown paragraph text.
 
 
 ### ChickWeight 
@@ -396,23 +466,26 @@ Using `print()` and `paste()`, report the mean and the standard deviation of the
 This exercise revolves around the `ChickWeight` dataset of the built-in `datasets` package. 
 
 **A**  
+
 Report the number of chickens used in the experiment. 
 
 **B**  
+
 Use `aggregate()` to get the mean weight of the chickens for the different Diets. 
 
 **C**  
+
 Use `coplot()` to plot a panel with weight as function of Time, split over Diet. 
 
 **D**  
 
-Add a column called `weight_gain` to the dataframe holding values for the weight gain since the last measurement. Take special care with rows marking the boundaries between indivivdual chickens! You could consider using a traditional for loop here.
+Add a column called `weight_gain` to the dataframe holding values for the weight gain since the last measurement. Take special care with rows marking the boundaries between individual chickens! You could consider using a traditional for loop here.
 In the next course, we'll see a more efficient way of doing this.
 
 **E**  
 
 Split the `weight_gain` column on Diet and report the mean, median and standard deviation for each diet. 
-If you were not succesful in the previous question, load and attach the data from file `ChickWeight_weight_gain.Rdata` downloadable from [https://github.com/MichielNoback/davur1_gitbook/raw/master/data/ChickWeight_weight_gain.Rdata](https://github.com/MichielNoback/davur1_gitbook/raw/master/data/ChickWeight_weight_gain.Rdata). You can use this code chunk for downloading and loading the data into variable `stored_weight_gain`. Don't forget to attach the column to the data frame!
+If you were not successful in the previous question, load and attach the data from file `ChickWeight_weight_gain.Rdata` downloadable from [https://github.com/MichielNoback/davur1_gitbook/raw/master/data/ChickWeight_weight_gain.Rdata](https://github.com/MichielNoback/davur1_gitbook/raw/master/data/ChickWeight_weight_gain.Rdata). You can use this code chunk for downloading and loading the data into variable `stored_weight_gain`. Don't forget to attach the column to the data frame!
 
 ```{r eval = F}
 local_file <- "ChickWeight_weight_gain.Rdata"
@@ -473,7 +546,9 @@ Which observer has the highest number of observations listed (and how many is th
 **D**  
 
 Report the different observed species (using `Common.name`) for each genus. **[Challenge]** Report only the 5 Genera with the highest number of observed species.  
+
 **E**  
+
 **[Challenge]** Create a Dataframe holding the number of birds per day (use Date.start) and plot it with date on the x-axis and number of birds on the y-axis. Hint: use `as.Date()` to convert the character date to a real date field. See this page how you can do that [Date Values](http://www.statmethods.net/input/dates.html).
 
 

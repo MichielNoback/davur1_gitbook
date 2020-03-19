@@ -158,7 +158,8 @@ legend(
     lty = 1)
 ```
 
-**B**    
+**B**   
+
 Create a combined boxplot of the three time-series. Are they indicative of a normal distribution? Are there outliers? If so, can you figure out when this occurred?
 
 ```{r lung-cancer-2, out.width='80%', fig.asp=.75, fig.align='center'}
@@ -169,6 +170,60 @@ boxplot(
 
 
 ## Complex datatypes
+
+### Creating factors
+
+**A**  
+
+```{r eval = FALSE}
+animal_risk <- c(2, 4, 1, 1, 2, 4, 1, 4, 1, 1, 2, 1)
+animal_risk_factor <- factor(x = animal_risk,
+                             levels = c(1, 2, 3, 4),
+                             labels = c("harmless", "risky", "dangerous", "deadly"),
+                             ordered = TRUE)
+barplot(table(animal_risk_factor))
+```
+
+**B**  
+
+```{r}
+set.seed(1234)
+wealth_male <- sample(x = letters[1:4], 
+                 size = 1000,
+                 replace= TRUE, 
+                 prob = c(0.7, 0.17, 0.12, 0.01))
+wealth_female <- sample(x = letters[1:4], 
+                 size = 1000,
+                 replace= TRUE, 
+                 prob = c(0.8, 0.15, 0.497, 0.003))
+
+wealth_labels <- c("poor", "middle class", "wealthy", "rich")
+
+wealth_male_f <- factor(x = wealth_male,
+                        levels = letters[1:4],
+                        labels = wealth_labels,
+                        ordered = TRUE)
+
+wealth_female_f <- factor(x = wealth_female,
+                        levels = letters[1:4],
+                        labels = wealth_labels,
+                        ordered = TRUE)
+
+#combine
+wealth_all_f <- factor(c(wealth_male_f, wealth_female_f),
+                        levels = 1:4,
+                        labels = wealth_labels,
+                        ordered = TRUE)
+
+prop.table(table(wealth_all_f)) * 100
+
+#getting this data right may be a bit of a challenge...
+bar_data <- rbind(table(wealth_female_f), table(wealth_male_f))
+rownames(bar_data) <- c("female", "male")
+
+barplot(bar_data, beside = T, legend = rownames(bar_data))
+```
+
 
 ### A dictionary with a named vector
 
@@ -391,6 +446,7 @@ tmp
 gsub("(\\d+)-(\\d+)", "\\1", tmp)
 ```
 
+
 ## Regular Expressions
 
 ### Restriction enzymes
@@ -438,7 +494,6 @@ PS00018:
 ```{r}
 PS00018 <- "D[^W][DNS][^ILVFYW][DENSTG][DNQGHRK][^GP][LIVMC][DENQSTAGC].{2} [DE][LIVMFYW]"
 ```
-
 
 
 ### Fasta Headers  
@@ -489,6 +544,7 @@ my_sd <- function(x) {
 }
 ```
 
+
 #### Median {-}     
 
 ```{r, eval = FALSE}
@@ -503,6 +559,33 @@ my_median <- function(x) {
         return(my_median)
 }
 ```
+
+
+### Interquantile ranges
+
+```{r eval = FALSE}
+interquantile_range <- function(x, lower = 0, upper = 1) {
+  if (! is.numeric(x) | 
+      ! is.numeric(lower) |
+      ! is.numeric(upper)) {
+    stop("all three arguments should be numeric")
+  }
+  lower_val <- quantile(x, probs = lower)
+  upper_val <- quantile(x, probs = upper)
+  tmp <- upper_val - lower_val
+  #a named vector is always nice, for acces but also for display purposes
+  names(tmp) <- paste0(lower*100, "-", upper*100, "%")
+  tmp
+}
+tst <- rnorm(1000)
+interquantile_range(tst) # 0 to 1
+interquantile_range(tst, 0.25, 0.75) # custom
+#interquantile_range("foo") # error!
+```
+
+Perform some tests on the arguments to make a robust method: are all arguments numeric?
+ 
+To test you method, you can compare `interquantile_range(some_vector, 0.25, 0.75)` with `IQR(some_vector)` - they should be the same.
 
 
 ### Vector distance
@@ -526,7 +609,7 @@ distance <- function(p, q) {
 
 
 
-### G/C percentageof DNA
+### G/C percentage of DNA
 
 ```{r, eval = FALSE}
 GC_perc <- function(seq, strict = TRUE) {
