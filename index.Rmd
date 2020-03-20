@@ -11,9 +11,17 @@ link-citations: yes
 description: "This gitbook accompanies the course Data Analysis & Visualization using R 1 (DAVuR1) of the minor Bioinformatics for Life Science Students. It is organized by the Hanze University of Applied Science."
 ---
 
-# Prerequisites
+# Getting started
 
-You should have R, RStudio and Tinytech or some other Latex alternative for your OS installed.
+Welcome, you have landed at the eBook accompanying my R course for Life Science students, **_Data Analysis and Visualization using R (DAVuR)_**.
 
-For now, only the exercises have been ported from simple markdown documents. All other chapters are empty.
+Before reading on, you should check whether you are ready to work with R on your own computer.
+You should have installed R, RStudio and Tinytech or some other Latex alternative for your OS.
+
+This eBook is the result of many hours of work and has been finetuned after lecturing the material for some years. 
+You are free to use it in any way you like: courses and self-paced study.
+
+
+Copyright &copy; Michiel Noback, Hanze University of Applied Science, Groningen, The Netherlands
+
 
