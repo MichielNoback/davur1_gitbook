@@ -1,6 +1,6 @@
-# Basic R
+# Basic R - coding basics
 
-## R coding basics
+## First look at vectors, fuctions and variables
 
 ### Doing Math in the console
 
