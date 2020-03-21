@@ -2,6 +2,36 @@
 
 ## Basic R
 
+### Math in the console
+
+$31 + 11$  
+
+$66 - 24$  
+
+$\frac{126}{3}$  
+
+$12^2$   
+
+$\sqrt{256}$  
+
+$\frac{3*(4+\sqrt{8})}{5^3}$
+
+```{r results = 'hold'}
+31 + 11
+66 - 24
+126 / 3
+12^2 
+256**0.5
+(3 * (4 + 8^0.5))/(5^3)
+```
+
+
+### First look at functions
+
+
+**`[NO SOLUTION YET]`**
+
+
 ### Plotting rules {-}
 
 Since everything needs to be done in a (corona virus induced) rush, plots may be (far) from perfect. Sorry about that.
