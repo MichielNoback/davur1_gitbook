@@ -1,4 +1,15 @@
 # Functions
 
+### Dealing with NAs
 
+As an aside, you should be aware that it is not possble to test for NA (Not Available) values in any other way; using `==` will simply return NA:
+
+```{r}
+x <- NA
+x == NA
+```
+
+Dealing with NA is a **_very big thing_**. When you work with external data there is always the possibility that some values will be missing.
+
+Other important functions for dealing with that are `na.omit()` and `complete.cases()`. Besides that, many functions in R have a (variant of) the `na.rm = ` argument.
 **_TO BE PORTED FROM PRESENTATION_**
