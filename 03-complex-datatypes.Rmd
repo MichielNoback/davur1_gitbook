@@ -1,5 +1,20 @@
 # Complex Datatypes and File Reading
 
+
+## Matrices are vectors with dimensions
+
+We will not detail on them in this course, only this one small paragraph. This does not mean they are not important, but they are just not the focus here. Some functions require or return a matrix so you should be aware of them.
+
+
+```{r matrix_demo}
+m <- matrix(1:10, nrow = 2, ncol = 5) 
+m
+v <- 1:10
+dim(v) <- c(2, 5)
+v
+```
+
+
 ## Factors: Nominal & Ordinal scales
 
 Although factors are not actually a complex datatype but very much one of the five base types in R, I saved them because they have some more complex and sometimes puzzling behaviour. 
