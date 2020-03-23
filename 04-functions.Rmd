@@ -4,14 +4,14 @@
 
 Dealing with NA is a **_very big thing_**. When you work with external data there is always the possibility that some values will be missing.
 
-You should be aware that it is not possble to test for `NA` values (Not Available) values in any other way; using `==` will simply return `NA`:
+You should be aware that it is not possible to test for `NA` values (Not Available) values in any other way; using `==` will simply return `NA`:
 
 ```{r}
 x <- NA
 x == NA
 ```
 
-Other important functions for dealing with that are `na.omit()` and `complete.cases()`. Besides that, many functions in R have a (variant of) the `na.rm = ` argument. For nstance, when the `sum()` function encounters an NA in its input vector, it will always return `NA`:
+Other important functions for dealing with that are `na.omit()` and `complete.cases()`. Besides that, many functions in R have a (variant of) the `na.rm = ` argument. For instance, when the `sum()` function encounters an NA in its input vector, it will always return `NA`:
 
 ```{r}
 x <- c(1, 2, 3, NA)
@@ -74,7 +74,7 @@ boxplot(ChickWeight$weight)
 
 #### Memory management {-}
 
-When working with large datasets it may be usefull to free some memory once in a while (i.e. intermediate results). Use `ls()` to see what is in menory; use `rm()` to delete single or several items: `rm(genes)`, `rm(x, y, z)` and clear all by typing `rm(list = ls())`
+When working with large datasets it may be useful to free some memory once in a while (i.e. intermediate results). Use `ls()` to see what is in memory; use `rm()` to delete single or several items: `rm(genes)`, `rm(x, y, z)` and clear all by typing `rm(list = ls())`
 
 
 #### File system operations {-}
@@ -91,7 +91,7 @@ Several functions exist for working with the file system:
 
 Use `paste()` to combine elements into a string
 
-```{r paste-demo}
+```{r paste-demo-2}
 paste(1, 2, 3)
 paste(1, 2, 3, sep="-")
 paste(1:12, month.abb)
@@ -220,7 +220,7 @@ save(x, y, file = "xy.RData")
 
 #### Writing a plot to file {-}
 
-Use one of the functions `png()`, `jpeg()`, `tiff()`, or `bmp()` for these specific file types. They have widely differing properties, especially with repsect to file size.  
+Use one of the functions `png()`, `jpeg()`, `tiff()`, or `bmp()` for these specific file types. They have widely differing properties, especially with respect to file size.  
 Use `width` and `height` to specify size. Default unit is pixels. Use other unit: `units = "mm"`
 
 ```{r eval = F}
@@ -234,7 +234,7 @@ dev.off() # don't forget this one!
 
 >Pattern matching is the process of finding, locating, extracting and replacing patterns in character data that usually cannot be literally described.
 
-For instance, it is easy enough to look for the word "Chimpansee" in a vector containing animal species names:
+For instance, it is easy enough to look for the word "Chimpanzee" in a vector containing animal species names:
 
 ```{r}
 animals = c("Chimpanzee", "Cow", "Camel")
@@ -256,7 +256,7 @@ Is you pattern something like this?
 
 _A letter C in upper-or lower case followed by 'himp' followed by nothing or 'anzee'_
 
-In programming we use **_regular expressions_** or **_RegEx_** to describe such a pattern in a formal consice way:
+In programming we use **_regular expressions_** or **_RegEx_** to describe such a pattern in a formal concise way:
 
 `[Cc]himp(anzee)?`
 
@@ -293,7 +293,7 @@ A regular expression can be build out of any combination of
 - **quantifiers** - How many times the preceding block should occur. See next paragraph.  
 - **anchors** - `^` means matching at the start of a string. `$` means at the end.
 
-An excellent cheatsheet from the RStudio website is also included
+An excellent cheat sheet from the RStudio website is also included
 <a href="figures/RegExCheatsheet.pdf" target="_blank">here</a>
 
 ### Quantifiers
@@ -321,7 +321,7 @@ This is the recognition sequence for the _HincII_ restriction endonuclease:
 
 Before reading on: how would you define a regular expression that is precisely describes this recognition sequence?
 
-Molecular biology seuence ambiguity codes can be found
+Molecular biology sequence ambiguity codes can be found
 <a href="data/ambiguity-codes.html" target="_blank">here</a>
 
 ```{r}
@@ -363,7 +363,7 @@ Now the date matching is correct.
 
 ### Metacharacters: Special character classes
 
-Since patterns such as `[0-9]` accur so frequently, they have dedicated character classes such as `[[:digit:]]`. The most important other ones are 
+Since patterns such as `[0-9]` occur so frequently, they have dedicated character classes such as `[[:digit:]]`. The most important other ones are 
 
 - **digits** `[[:digit:]]` or `\\d`: equivalent to `[0-9]`
 - **alphabet characters** `[[:alpha:]]`: equivalent to `[a-zA-Z]`
