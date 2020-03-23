@@ -2,6 +2,8 @@
 
 This chapter only contains exercises. The solutions are in the next chapter which has a numbering parallel to this one.
 
+This is a link to an [R cheat sheet](figures/R_cheatsheet.pdf) that you could use for selecting the right function for a task.
+
 ## Basic R
 
 ### Math in the console
