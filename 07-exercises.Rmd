@@ -1,8 +1,23 @@
 # Exercises
 
-This chapter only contains exercises. The solutions are in the next chapter which has a numbering parallel to this one.
+This chapter only contains exercises. The solutions are in the next chapter which has a numbering parallel to this one. To work on the exercises it is probably best to create either an RMarkdown Notebook (File &rarr; New File &rarr; R Notebook) or an RMarkdown document (File &rarr; New File &rarr; R Markdown... &rarr; choose Document as type and give it a title). A Notebook has the advantage that you can toggle the visibility of the code, but it has fewer output options (no pdf or Word). I strongly suggest you play around with both.
+
 
 This is a link to an [R cheat sheet](figures/R_cheatsheet.pdf) that you could use for selecting the right function for a task.
+
+## Toolbox
+
+### Get set up
+
+Install these tools on your own PC or laptop, in this order:
+
+1. R itself [https://cran.r-project.org/bin/windows/base/](https://cran.r-project.org/bin/windows/base/)  
+2. RStudio [https://rstudio.com/products/rstudio/download/](https://rstudio.com/products/rstudio/download/) (choose the free version of course)
+3. [Optionally] If you want to generate pdf documents you should also install a Latex version: MikTeX for Windows or MacTeX on MacOS. If you want to keep things simple I suggest you stick to HTML and <MS Word output (Word can also export to PDF).
+
+### Résumé
+
+Create an R Markdown document called Résumé and create your Curriculum Vitae using Markdown syntax.
 
 ## Basic R
 
@@ -24,13 +39,18 @@ $\frac{3*(4+\sqrt{8})}{5^3}$
 
 ### First look at functions
 
-1. View the help page for `paste()`. There are two variants of this function.  
-    - Which? And what is the difference between them?
-    - Use both variants to generate exactly this message `"welcome to R"` from these arguments: `"welcome ", "to ", "R"`
-2. What does the `abs` function do?  
-    - What is returned by `abs(-20)` and what is `abs(20)`?  
-3. What does the `c` function do?  
-    - What is the difference in returned value of `c()` when you combine either `1`, `3` and `"a"` as arguments , or `1`, `2` and `3`? 
+**A**  
+
+View the help page for `paste()`. There are two variants of this function. Which? And what is the difference between them? Use both variants to generate _exactly_ this message `"welcome to R"` from these arguments: `"welcome ", "to ", "R"`
+
+**B**  
+
+What does the `abs` function do? What is returned by `abs(-20)` and what is `abs(20)`?  
+
+
+**C**  
+
+What does the `c` function do? What is the difference in returned value (result) of `c()` when you combine either `1`, `3` and `"a"` as arguments, or `1`, `2` and `3`? Use the function `class()` to answer this.   
 
 
 ### Variables
@@ -566,6 +586,55 @@ What food category has the highest mean energy content, and which has the lowest
 **F**  
 
 Assuming both unsaturated fats and sugar are bad for you, what food category do you consider the worst? Think of a means to answer this, explain it and carry it out.
+
+
+### Urine properties
+
+The [urine specimens dataset](https://github.com/MichielNoback/datasets/tree/master/urine) contains a `readme.txt` file and a data file (`urine.csv`; direct link: "https://raw.githubusercontent.com/MichielNoback/datasets/master/urine/urine.csv"). Study the readme to get an idea of the data. Download the file like this:
+
+```{r download-urine-data-1, eval = FALSE}
+urine_file_name <- "urine.csv"
+url <- paste0("https://raw.githubusercontent.com/MichielNoback/datasets/master/urine/", urine_file_name)
+local_name <- paste0("../", urine_file_name) #specifiy your own folder!
+download.file(url = url, destfile = local_name)
+```
+
+**A**  
+
+Load the data into a dataframe with name `urine`.
+
+**B**  
+
+Convert the column `r` into a factor with two levels: `yes` and `no`, and give it a better name: `ox_crystals`.
+
+**C**  
+
+Using `apply()`, report the mean and standard deviation of the numeric columns only. Give these with only two decimal digits. Use a _named vector_ so you get this output:
+
+```
+     gravity   ph   osmo  cond   urea calc
+mean    1.02 6.03 615.04 20.90 266.41 4.14
+sd      0.01 0.72 238.25  7.95 131.25 3.26
+```
+
+**D**  
+
+Using `aggregate`, report the mean of the numeric columns, but split over the `ox_crystals` variable levels. Which variables seem most likely candidates for a relation with oxalate crystal formation.
+
+**E**  
+
+Use the `pairs()` plotting function to explore the pairwise relationships between the different numeric variables  
+
+**F**  
+
+Use the `heatmap.2()` and `cor()` functions together to create a heatmap of pairwise variable correlations. You will need to install package `gplots` for the heatmap.2 function. Alternatively, use `heatmap()` from base R.
+
+Which visualization do you prefer - the `pairs()` or the `heatmap.2()`? 
+
+**G**  
+
+[**Challenge**] There does not seem to be an interesting correlation between pH and any of the other variables. Sometimes this is becuase you are not looking in enough detail. Let's dig a little further. Use `cut()` to split the pH variable into a factor with three levels:  "acidic", "neutral" and "basic" with breakpoints between them at pH 5.5 and 7. Next, use the `split()` and `lapply()` functions to calculate the mean, meadian and sd of the other numeric variables for each level of this pH factor. This exercise can of course be done in many ways. one of them is by using an `apply()` _within_ the applied function of `lapply()`.
+
 
 
 ### Bird observations revisited

@@ -11,9 +11,9 @@ plot(pressure, type = 'b', pch = 19)
 Since you're a life science student -that is my target audience at least-, you have probably worked with Excel or SPSS at some time. Have you ever wondered  
 
 - Why am I doing this exact same series of mouse clicks again and again? Is there not a more efficient way?
-- How can I describe my work reproducibly as a series of mouse clicks?
+- How can I describe my work reproducible as a series of mouse clicks?
 
-If so, then R may be your next favourite data analysis tool.
+If so, then R may be your next favorite data analysis tool.
 It takes a little effort at first, but once you get the hang of it you will never create a plot in Excel again. 
 
 With R - as with any programming language, 
@@ -22,24 +22,24 @@ With R - as with any programming language,
 - The analysis is central, not the output. This guarantees complete reproducibility
 
 
-## Overview of the toolbox
+### Overview of the toolbox {-}
 
 This chapter will introduce you to a toolbox that will serve you well during your data quests.  
 It consists of 
 
-- The R programming language and builtin functionality
+- The R programming language and built-in functionality
 - The RStudio Integrated Development Environment (IDE)
 - R Markdown as documenting and reporting tool
 
 
-### Tool 1: The R programming language
+## Tool 1: The R programming language
 
 ![](figures/Rlogo.jpg)
 
 Nobody likes to pay for computer tools. R is completely free of charge. Moreover, it is completely open source. This is of course one of the main reasons for its popularity; other statistical tools are not free and sometimes downright expensive.
-Besides this free nature, R is very popular because it has an interactive mode. We call this a read–evaluate–print loop: REPL. This means you don't need to write programs to run code. You simply type a command in the **_console_**, press ennter and immediately get the result on the line below.  
+Besides this free nature, R is very popular because it has an interactive mode. We call this a read–evaluate–print loop: REPL. This means you don't need to write programs to run code. You simply type a command in the **_console_**, press enter and immediately get the result on the line below.  
 As stated above, because you store your analyses in code, repeating these analyses -possibly with with new data or changed settings- is very easy. 
-One of my personal favorite features is that R supports "literate programming" for creating presentations (such as this one!) and other publications (reports, papers etc). Pdf documents, Microsoft Word documents, web pages (html) and e-books are all possible outputs of a single RMarkdown master document.  
+One of my personal favorite features is that R supports "literate programming" for creating presentations (such as this one!) and other publications (reports, papers etc). Pdf documents, Microsoft Word documents, web pages (html) and e-books are all possible outputs of a single R Markdown master document.  
 
 Finally, R has advanced embedded graphical support. This means that graphical output (a plot) is as easy to generate as  textual output!
 
@@ -73,11 +73,11 @@ ggplot(DF, aes(variable, value, fill = variable)) +
 ![A custom jitter visualization](figures/ptsd-jitter-5-1s.png)
 
 
-### Tool 2: RStudio as development environment
+## Tool 2: RStudio as development environment
 
 ![RStudio logo](figures/RStudioLogo.png)
 
-RStudio is a so-called Integrated Development Environment. This means it is a "Swiss Mulitool" for programming. With it, you manage and run code, files, documentation on the language (help pages), building different output formats. 
+RStudio is a so-called Integrated Development Environment. This means it is a "Swiss Multitool" for programming. With it, you manage and run code, files, documentation on the language (help pages), building different output formats. 
 The workbench has several panels and looks like this when you run the application.
 
 ![](figures/RStudio_screen3.png)
@@ -85,15 +85,15 @@ The workbench has several panels and looks like this when you run the applicatio
 
 You primarily work with 4 panels of the workbench:
 
-1. **Code editor** where you write your scripts and RMarkdown documents: text files with code you want to execute more than once
+1. **Code editor** where you write your scripts and R Markdown documents: text files with code you want to execute more than once
 2. **R console** where you execute lines of code one by one
 3. **Environment and History** See what data you have in memory, and what you have done so far
 4. **Plots, Help & Files** 
 
-You use the console to do basic calculations, try pieces of code, develop a function, or load scripts (from the code editor) into memory. On the other hand, the code editor is used to work on code that has life span longer than a few minutes: analyses you may want to repeat, or develop further in the form of scripts and RMarkdown documents. 
-The code editor supports many file types for viewing and editing: regular text, structured datafiles (text, csv, data files), scripts (programs), and analytical notebooks (RMarkdown).  
+You use the console to do basic calculations, try pieces of code, develop a function, or load scripts (from the code editor) into memory. On the other hand, the code editor is used to work on code that has life span longer than a few minutes: analyses you may want to repeat, or develop further in the form of scripts and R Markdown documents. 
+The code editor supports many file types for viewing and editing: regular text, structured datafiles (text, csv, data files), scripts (programs), and analytical notebooks (R Markdown).  
 
-What is nice about the **_code editor_** above regular text editors such as Notepad, Wordpad, TextEdit, is that it knows about different file types and their constituting elements and helps your read, write (autocomplete, error alerts), scan and organize them by displaying these elements using coloring, font types and other visual aids.
+What is nice about the **_code editor_** above regular text editors such as Notepad, Wordpad, TextEdit, is that it knows about different file types and their constituting elements and helps your read, write (auto-complete, error alerts), scan and organize them by displaying these elements using coloring, font types and other visual aids.
 
 Here is the same piece of code, which is a plain text file, in two different editors. First as plain text in the Mac TextEdit app and next in the RStudio code editor:
 
@@ -104,30 +104,36 @@ Here is the same piece of code, which is a plain text file, in two different edi
 It is clearly visible where the code elements, numeric data and character data are within the code. 
 
 
-### Tool 3: RMarkdown
+## Tool 3: R Markdown
 
 ![](figures/markdown_logo.jpg)
 
-In RMarkdown, you can combine regular text and figures with embedded R code that will be executed to generate a final document.
+Using R Markdown you can combine regular text and figures with embedded R code that will be executed to generate a final document. We call this _literate programming_.  
+You can use it to create reports in word, pdf or web (html), presentations (pdf or web) and even eBooks and websites. This entire eBook itself is written in R Markdown!
 
-You can use it to create reports in word, pdf or web (html); create presentations (pdf or web); create entire ebooks and websites (such as this one). This entire ebook itself is written in RMarkdown!
-
-Markdown is a very basic **_markup_** language. Markup means that you use textual elements to indicate structure instead of content. RMarkdown simply is Markdown with embedded pieces of R code. Consider this piece of Markdown:
+Markdown is, just like the language for the web, `html`, a **_markup_** language. Markup means that you use textual elements to indicate structure instead of content. The R extension to Markdown, R Markdown, simply is Markdown with embedded pieces of R code. Consider this piece of Markdown:
 
 ```
-### Tool 3: RMarkdown
+## Tool 3: R Markdown
 
 ![](figures/markdown_logo.jpg)
 
-In RMarkdown, you can combine regular text and figures with embedded R code that will be executed to generate a final document.
+Using RMarkdown you can combine regular text and figures with embedded R code that will be executed to generate a final document. 
 ```
 
-The result of this snippet is the top of the current paragraph you are reading.  
+The result of this snippet, after it is converted into html, is the top of the current paragraph you are reading.  
 
-Here is a piece of R code we call a **_code chunk_** that plots some random data in a scatter plot. In RStudio this piece of R code within (the current) RMarkdown document looks like this:
+Here is a piece of R code we call a **_code chunk_** that plots some random data in a scatter plot. In RStudio this piece of R code within (the current) R Markdown document looks like this:
 
 ![](figures/code_chunk.png)
-Next, when I **_knit_** the document into web format it results in the piece below together with its output, a scatter plot.
+Every code chunk consists of two parts; its _header_ and _body_. The header tells the conversion engine (**_knitr_**) how to deal with the code within the chunk, and its output. 
+In this case, this header is  
+
+`{r simple-scatter-demo-1, fig.asp=0.6, out.width='80%', fig.align='center', fig.caption='A simple scatter plot'}`
+
+This header specifies quite a few things. First, the programming language (`r`) and the label, or "name", of the chunk (`simple-scatter-demo-1`). Next, several aspects of the generated plot are specified: its _aspect ratio_, _relative width_, _alignment_ on the page and the _figure caption_. Only the programming language is required here.   
+
+Next, when you **_knit_** (translate) the document into web format it results in the piece below, together with its output, a scatter plot.
 
 ```{r simple-scatter-demo-1, fig.asp=0.6, out.width='80%', fig.align='center', fig.cap = 'A simple scatter plot'}
 x <- 1:100
@@ -135,7 +141,8 @@ y <- rnorm(100) + 1:100*rnorm(100, 0.2, 0.1)
 plot(x, y)
 ```
 
-RMarkdown is really basic; in fact it is translated into html, the markup language of the web, before any further processing occurs. That is why you can also embed html elements within it. Here are the most basic elements you can use in Markdown documents.
+R Markdown is translated into html, the markup language of the web, before any further processing occurs. That is why you can also embed html code elements within it but that is outside the scope of this course.  
+Here are the most basic elements you can use in Markdown documents.
 
 ![RMarkdown](figures/markdownOverview.png)
 
@@ -149,18 +156,20 @@ results in this:
 
 $$d(p, q) = \sqrt{\sum_{i = 1}^{n}(q_i-p_i)^2}$$
 
-Happy coding!
+RStudio provides several cheatsheets with R, including Markdown. Have a look at Help &rarr; Cheatsheets. 
+
+A final note. To be able to convert R Markdown into Word format you need to have MS Word installed on that machine. If you want to be able to generate pdf documents, you will need a bit more: see the screencast [Setting up on a Windows system](https://www.youtube.com/watch?v=YL3avjNu6Ak). It is a bit outdated so you should update to more recent version numbers.
 
 
 ## Resources
 
 
-### Swirl course
+### Swirl course {-}
 
 Swirl course to accompany this course: [http://github.com/MichielNoback/R_Data_Analysis](http://github.com/MichielNoback/R_Data_Analysis)
 
 
-### Data Files
+### Data Files {-}
 
 In this section all data files used or required for the course presentations or exercises are listed.  
 <ul>
@@ -179,7 +188,7 @@ In this section all data files used or required for the course presentations or 
   </li>
 </ul>
 
-### Web resources and references
+### Web resources and references {-}
 
 - **R Markdown**  
 R Markdown is a Markdown “Dialect” used for presenting, documenting and reporting in R: [http://rmarkdown.rstudio.com](http://rmarkdown.rstudio.com/)
@@ -187,21 +196,21 @@ R Markdown is a Markdown “Dialect” used for presenting, documenting and repo
 - **R cheat sheet**  
 The [R cheat sheet](figures/R_cheatsheet.pdf).
 
-- **RMarkdown reference**  
+- **R Markdown reference**  
 The [RMarkdown reference](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf) cards with extensive documentation. Also available at the computer exam!
 
 - **Bioconductor**  
 Bioconductor provides tools for the analysis and comprehension of high- throughput genomic data: [http://www.bioconductor.org](http://www.bioconductor.org/)
 
 
-#### Screencasts
+#### Screencasts {-}
 
 <ul>
   <li>Setting up on a Windows system 
-    <a href="https://www.youtube.com/watch?v=YL3avjNu6Ak" target = "_blank">Youtube</a>
+    <a href="https://www.youtube.com/watch?v=YL3avjNu6Ak" target = "_blank">YouTube</a>
   </li>
-  <li>Starting with Rstudio 
-    <a href="https://www.youtube.com/watch?v=z0SoenlbJ5k" target = "_blank">Youtube</a>
+  <li>Starting with R studio 
+    <a href="https://www.youtube.com/watch?v=z0SoenlbJ5k" target = "_blank">YouTube</a>
   </li>
 </ul>
 
