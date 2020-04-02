@@ -173,7 +173,7 @@ types <- data.frame(type = c("numeric", "integer", "logical", "character", "fact
 knitr::kable(types)
 ```
 
-All these types are created in similar ways, and can often be converted into other types.
+All these types are created in similar ways and can often be converted into other types.
 
 **Note 1:** If you type a number in the console, it will always be a `numeric` value, decimal part or not.  
 **Note 2:** For character data, single and double quotes are equivalent but double are preferred; type `?Quotes` in the console to read more on this topic. 

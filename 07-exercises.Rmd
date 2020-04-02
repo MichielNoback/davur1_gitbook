@@ -5,6 +5,12 @@ This chapter only contains exercises. The solutions are in the next chapter whic
 
 This is a link to an [R cheat sheet](figures/R_cheatsheet.pdf) that you could use for selecting the right function for a task.
 
+
+#### Plotting rules {-}
+
+With all plots, take care to adhere to the rules regarding titles and other decorations. Tip: the site [Quick-R](http://www.statmethods.net/) has nice detailed information with examples on the different plot types and their configuration. Especially the section [on plotting](http://www.statmethods.net/graphs/index.html) is helpful for these assignments.
+
+
 ## Toolbox
 
 ### Get set up
@@ -13,11 +19,11 @@ Install these tools on your own PC or laptop, in this order:
 
 1. R itself [https://cran.r-project.org/bin/windows/base/](https://cran.r-project.org/bin/windows/base/)  
 2. RStudio [https://rstudio.com/products/rstudio/download/](https://rstudio.com/products/rstudio/download/) (choose the free version of course)
-3. [Optionally] If you want to generate pdf documents you should also install a Latex version: MikTeX for Windows or MacTeX on MacOS. If you want to keep things simple I suggest you stick to HTML and <MS Word output (Word can also export to PDF).
+3. [Optionally] If you want to generate pdf documents you should also install a Latex version: MikTeX or TinyTex for Windows or MacTeX on MacOS. If you want to keep things simple I suggest you stick to HTML and MS Word output (Word can also export to PDF).
 
 ### Résumé
 
-Create an R Markdown document called Résumé and create your Curriculum Vitae using Markdown syntax.
+Create an R Markdown document called Résumé.Rmd and create your Curriculum Vitae using Markdown syntax. Use the R Markdown Reference Guide or Cheat Sheet or this [Markdown Cheatsheet](https://guides.github.com/pdfs/markdown-cheatsheet-online.pdf) (you don't need R for your résumé so markdown alone is enough).
 
 ## Basic R
 
@@ -40,17 +46,17 @@ $\frac{3*(4+\sqrt{8})}{5^3}$
 ### First look at functions
 
 **A**  
-
 View the help page for `paste()`. There are two variants of this function. Which? And what is the difference between them? Use both variants to generate _exactly_ this message `"welcome to R"` from these arguments: `"welcome ", "to ", "R"`
 
 **B**  
-
-What does the `abs` function do? What is returned by `abs(-20)` and what is `abs(20)`?  
+What does the `abs` function do? What is returned by `abs(-20)` and what is `abs(20)`?
 
 
 **C**  
-
 What does the `c` function do? What is the difference in returned value (result) of `c()` when you combine either `1`, `3` and `"a"` as arguments, or `1`, `2` and `3`? Use the function `class()` to answer this.   
+
+**D**  
+What does the function `install.packages()` do? Use it to install the package `RColorBrewer`. We'll have a look at this package later on. 
 
 
 ### Variables
@@ -65,9 +71,53 @@ Create three variables with the given values - x=20, y=10 and z=3. Next, calcula
 6. $\log_{10}{(x \times y)}$
 
 
-### Plotting rules {-}
 
-With all plots, take care to adhere to the rules regarding titles and other decorations. Tip: the site [Quick-R](http://www.statmethods.net/) has nice detailed information with examples on the different plot types and their configuration. Especially the section [on plotting](http://www.statmethods.net/graphs/index.html) is helpful for these assignments.
+### Vectors
+
+#### Circles {-}
+
+The circumference of a circle is $2\pi\cdot r$, its surface $4\pi \cdot r^2$ and its volume $4/3 \pi\cdot r^3$.
+Given this vector of circle radiuses,
+
+```{r radiuses-defined, eval = FALSE}
+radiuses <- c(0, 1, 2, pi, 4)
+```
+
+**A**  
+Calculate their cirumference.
+
+**B**  
+Calculate their surface.
+
+**C**  
+Calculate their volume.
+
+
+#### Creating vectors {-}
+
+Create the following vectors, _as efficiently as possible_. The functions `rep()`, `seq()`, `paste0()` and the colon operator `:` can be used, in any combination.
+
+**A**   
+`[1] 1 2 5 1 2 5`
+
+**B**  
+`[1] 9 9 9 8 8 8 7 7 7 6 6 6 5 5 5`
+
+**C**  
+` [1] 1 1 1 4 4 4 9 9 9 1 1 1 4 4 4 9 9 9`
+
+**D**  
+` [1] "1a" "2b" "3c" "4d" "5e" "1a" "2b" "3c" "4d" "5e"`
+
+**E**  
+`[1] "0z"   "0.2y" "0.4x" "0.6w" "0.8v" "1u"`
+
+**F**  
+`[1] "505" "404" "303" "202" "101" "000"`
+
+**G [Challenge]**  
+`[1] "0.5A5.0" "0.4B4.0" "0.3C3.0" "0.2D2.0" "0.1E1.0"`
+
 
 
 ### Stair walking and heart rate 
@@ -124,15 +174,12 @@ With the data from the previous question, create a bar plot of the maximum weigh
 The R language comes with a wealth of datasets for you to use as practice materials. We will see several of these. One of these datasets is The Time-Series dataset called `discoveries` holding the numbers of "great" inventions and scientific discoveries in each year from 1860 to 1959. Type its name in the console to see it. Create plot(s) answering these questions:  
  
 **A**  
-
 What is the number of discoveries per year? Use the `barplot()` and `table()` functions for this.  
 
 **B**  
-
 What is the 5-number summary of discoveries per year?  
 
 **C**  
-
 What is the trend over time for the numbers of discoveries per year?
 
 PS: This is actually not a simple vector but a vector with some time-related attributes. It is called a Time-Series (a `ts` class), but this does not really matter for this assignment.
@@ -153,11 +200,9 @@ legend("topleft", legend = c("series 1", "series 2"), col = c("black", "blue"), 
 ```
 
 **A**  
-
 Create the mentioned line plot. Do you see trends and/or patterns and if so, can you explain these?
 
 **B**  
-
 Create a combined boxplot of the three time-series. Are there outliers? If so, can you figure out when this occurred?
 
 
@@ -168,7 +213,6 @@ This section serves you some datatype challenges.
 ### Creating factors
 
 **A**  
-
 Given this vector:
 
 ```{r eval = FALSE}
@@ -184,7 +228,6 @@ and these possible levels:
 Create a factor from this data and then barplot the result.
 
 **B**  
-
 Given this data, a simulation of wealth distribution of "poor", "middle class", "wealthy" "rich:
 
 ```{r eval = FALSE}
@@ -229,12 +272,10 @@ print(my_prot)
 
 
 **A**  
-
 Make a modified copy of this code chunk in such a way that no spaces are present between the amino acid residues (use help on `paste()` to figure this out) and that single-letter codes of amino acids are used instead of three-letter codes.
 
 
 **B**  
-
 **[Challenge]** Here is a vector called `nuc_weights`. It holds the weights for the nucleotides A, C, G and U respectively. Make it a named vector, iterate `my_DNA` from the above code chunk and calculate its molecular weight. 
 
 ```{r eval = F}
@@ -247,23 +288,18 @@ nuc_weights <- c(491.2, 467.2, 507.2, 482.2)
 The `airquality` dataset is also one of the datasets included in the `datasets` package. We'll explore this for a few questions.
 
 **A**  
-
 Create a scatterplot of Temperature as a function of Solar radiation. Is there, as you might naively expect, a strong correlation? You could use `cor.test()` to find out. Add a linear model using `lm()` to extend your plot.
 
 **B**  
-
 Create a boxplot-series of `Temp` as a function of `Month` (use `?boxplot` to find out how this works). What appears to be the warmest month?
 
 **C**  
-
 What date (day/month) has the lowest recorded temperature? Which the highest? Please give temperature values in Celsius, not Fahrenheit! (Yes, this is an extra challenge!)
 
 **D**  
-
 Create a histogram of the wind speeds, and add a thick blue vertical line for the value of the mean and a fat red line for the median (use `abline()` for this).
 
 **E**  
-
 Use the `pairs()` function with argument `panel = panel.smooth` to plot all pairwise correlations between Ozone, Solar radiation, Wind and Temperature. Which pair shows the strongest correlation in your opinion? Verify this using the `cor()` function after removing incomplete cases. Create a separate well annotated scatterplot of this pair.
 
 
@@ -286,7 +322,6 @@ Load the observation data into R and assign it to a variable called `bird_obs`.
 From here on, it is assumed that you have the dataframe `bird_obs` loaded. This series of exercises deals with cleaning and transforming data, and exploring a cleaned dataset using basic plotting techniques and descriptive statistics.
 
 **A**  
-
 First, explore the raw data as they are. 
 
 - What data on bird observations were recorded (i.e. what kind of variables do you have)?
@@ -294,29 +329,23 @@ First, explore the raw data as they are.
 - Are all column names clear to you?
  
 **B**  
-
 How many bird observations were recorded?
 
 **C**  
-
 The column holding observation "Number" is actually not a number. Into what type has R converted it?
 
 **D**  
-
 Convert the "Number" column into an integer column using `as.integer()`, but assign it to a new column called "Count" (i.e. do not overwrite the original values). Compare the first 50 values or so of these two columns. What happened to the data? Is this OK?
 
 **E**  
-
 The previous question has shown that converting factors to numbers is a bit dangerous. It is often easiest to convert characters to numbers. The best way to do this is by using the `as.is = c(<column indices>)` argument for the `read.table()` function. 
 
 So, which columns should be loaded as real factor data and which as plain character data? Use `read.table()` and the `as.is` argument to reload the data, and then transform the `Number` column to integer again as `Count`. 
 
 **F**  
-
 Compare the first 50 values of the Number and Count columns again. Has the conversion succeeded? How many `Number` values could not be transformed into an integer value? Hint: use `is.na()`
 
 **G**  
-
 Explore the sighting counts:
 
 - What is the maximum number of birds in a single sighting? (Use max() and which() or is.na() to solve this)
@@ -324,12 +353,10 @@ Explore the sighting counts:
 - What is the median of the sighting count
 
 **H**  
-
 Is the `Count` variable a normal distributed value? You can use `hist(...)`, `table()` or `plot(density(...))` to explore this further.
 
 
 **I**  
-
 Explore the species constitution: 
 
 - How many different species were recorded?
@@ -348,23 +375,19 @@ This is a challenge exercise for those who like to grind their brains! Think of 
 ### Restriction enzymes
 
 **A**  
-
 The restriction enzyme PacI has the recognition sequence "TTAATTAA". Define (at least) three alternative regex patterns that will catch these sites. 
 
 **B**  
-
 The restriction enzyme SfiI has the recognition sequence "GGCCNNNNNGGCC".  Define (at least) three alternative regex patterns that will catch these sites. 
 
 ### Prosite Patterns  
 
 **A**  
-
 The Prosite pattern PS00211 (ABC-transporter-1; https://prosite.expasy.org/PS00211) has the pattern:  
 "[LIVMFYC]-[SA]-[SAPGLVFYKQH]-G-[DENQMW]-[KRQASPCLIMFW]-[KRNQSTAVM]-[KRACLVM]-[LIVMFYPAN]-{PHY}-[LIVMFW]-[SAGCLIVP]-{FYWHP}-{KRHP}-[LIVMFYWSTA]." 
 Translate it into a regex pattern. Info on the syntax is here: https://prosite.expasy.org/prosuser.html#conv_pa 
 
 **B**  
-
 The Prosite pattern PS00018 (EF-hand calcium-binding domain; https://prosite.expasy.org/PS00018) has the pattern: 
 "D-{W}-[DNS]-{ILVFYW}-[DENSTG]-[DNQGHRK]-{GP}-[LIVMC]-[DENQSTAGC]-x(2)- [DE]-[LIVMFYW]." 
 Translate it into a regex pattern.  
@@ -417,16 +440,13 @@ Now, given the fasta headers in [./data/fasta_headers.txt](./data/fasta_headers.
 which you can simply load into a character vector using `readLines()`, extract the following.
 
 **A**  
-
 - Extract all complete organism names.  
 - Extract all species-level organism names (omitting subspecies and strains etc).  
 
 **B**  
-
 Extract all **_first_** database identifiers. So in this header element `>gi|224017144|gb|EEF75156.1|` you should extract only `gi|224017144`
 
 **C**  
-
 Extract all protein names/descriptions.
 
 
@@ -502,23 +522,18 @@ whale_selenium <- read.table(whale_sel_url,
 Note: when you are going to load a file many times it is probably better to store a local copy.
 
 **A**  
-
 Report the means of both columns using `apply()`.
 
 **B** 
-
 Report the standard deviation of both columns, using `apply()`
 
 **C**  
-
 Report the standard error of the mean of both columns, using `apply()` The SEM is calculated as $$\frac{sd}{\sqrt{n}}$$ where $sd$ is the sample standard deviation and $n$ the number of measurements. You should create the function calculating this statistic yourself.
 
 **D**  
-
 Using `apply()`, calculate the ratio of $Se_{tooth} / Se_{liver}$ and attach it to the `whale_selenium` dataframe as column `ratio`. Create a histogram of this ratio.
 
 **E**  
-
 Using `print()` and `paste()`, report the mean and the standard deviation of the ratio column, but do this with an inline expression, e.g. an expression embedded in the R markdown paragraph text.
 
 
@@ -527,24 +542,19 @@ Using `print()` and `paste()`, report the mean and the standard deviation of the
 This exercise revolves around the `ChickWeight` dataset of the built-in `datasets` package. 
 
 **A**  
-
 Report the number of chickens used in the experiment. 
 
 **B**  
-
 Use `aggregate()` to get the mean weight of the chickens for the different Diets. 
 
 **C**  
-
 Use `coplot()` to plot a panel with weight as function of Time, split over Diet. 
 
 **D**  
-
 Add a column called `weight_gain` to the dataframe holding values for the weight gain since the last measurement. Take special care with rows marking the boundaries between individual chickens! You could consider using a traditional for loop here.
 In the next course, we'll see a more efficient way of doing this.
 
 **E**  
-
 Split the `weight_gain` column on Diet and report the mean, median and standard deviation for each diet. 
 If you were not successful in the previous question, load and attach the data from file `ChickWeight_weight_gain.Rdata` downloadable from [https://github.com/MichielNoback/davur1_gitbook/raw/master/data/ChickWeight_weight_gain.Rdata](https://github.com/MichielNoback/davur1_gitbook/raw/master/data/ChickWeight_weight_gain.Rdata). You can use this code chunk for downloading and loading the data into variable `stored_weight_gain`. Don't forget to attach the column to the data frame!
 
@@ -555,7 +565,6 @@ load(local_file)
 ```
 
 **F**  
-
 Create a (single-panel) boxplot for weight gain, split over Diet. Hint: read the `boxplot()` help page!
 
 
@@ -564,27 +573,21 @@ Create a (single-panel) boxplot for weight gain, split over Diet. Hint: read the
 The [food constituents dataset](https://raw.githubusercontent.com/MichielNoback/davur1_gitbook/master/data/food_constituents.txt) holds information on ingredients for different foods. Individual foods are simply marked with an id. 
 
 **A**  
-
 Load the data and report the different food categories (`Type`). Also report the numbers of entries for each Type.
 
 **B**  
-
 What is the mean energy content of chocolate foods?
 
 **C**  
-
 What is the food category with the highest mean fat content?
 
 **D**  
-
 What food category has the highest mean energy content, and which has the lowest?
 
 **E**  
-
 **[Challenge]** Create a boxplot showing the difference in sugar content between drink and solid food.
 
 **F**  
-
 Assuming both unsaturated fats and sugar are bad for you, what food category do you consider the worst? Think of a means to answer this, explain it and carry it out.
 
 
@@ -600,15 +603,12 @@ download.file(url = url, destfile = local_name)
 ```
 
 **A**  
-
 Load the data into a dataframe with name `urine`.
 
 **B**  
-
 Convert the column `r` into a factor with two levels: `yes` and `no`, and give it a better name: `ox_crystals`.
 
 **C**  
-
 Using `apply()`, report the mean and standard deviation of the numeric columns only. Give these with only two decimal digits. Use a _named vector_ so you get this output:
 
 ```
@@ -618,21 +618,17 @@ sd      0.01 0.72 238.25  7.95 131.25 3.26
 ```
 
 **D**  
-
 Using `aggregate`, report the mean of the numeric columns, but split over the `ox_crystals` variable levels. Which variables seem most likely candidates for a relation with oxalate crystal formation.
 
 **E**  
-
 Use the `pairs()` plotting function to explore the pairwise relationships between the different numeric variables  
 
 **F**  
-
 Use the `heatmap.2()` and `cor()` functions together to create a heatmap of pairwise variable correlations. You will need to install package `gplots` for the heatmap.2 function. Alternatively, use `heatmap()` from base R.
 
 Which visualization do you prefer - the `pairs()` or the `heatmap.2()`? 
 
 **G**  
-
 [**Challenge**] There does not seem to be an interesting correlation between pH and any of the other variables. Sometimes this is becuase you are not looking in enough detail. Let's dig a little further. Use `cut()` to split the pH variable into a factor with three levels:  "acidic", "neutral" and "basic" with breakpoints between them at pH 5.5 and 7. Next, use the `split()` and `lapply()` functions to calculate the mean, meadian and sd of the other numeric variables for each level of this pH factor. This exercise can of course be done in many ways. one of them is by using an `apply()` _within_ the applied function of `lapply()`.
 
 
@@ -642,23 +638,18 @@ Which visualization do you prefer - the `pairs()` or the `heatmap.2()`?
 This exercise revisits the bird observations dataset. You can download it [here](data/Observations-Data-2014.csv). (Re)load the dataset.
 
 **A**  
-
 Report the number of observations per `County`. Use both a textual as a barplot representation. With the barplot, you should order the bars according to observation numbers. 
 
 **B**  
-
 Report the number of observations per `Observer.1` but only for observers with more than 10 observations, ordered from high to low observation count. Use `order()` to achieve this.
 
 **C**  
-
 Which observer has the highest number of observations listed (and how many is that)? 
 
 **D**  
-
 Report the different observed species (using `Common.name`) for each genus. **[Challenge]** Report only the 5 Genera with the highest number of observed species.  
 
 **E**  
-
 **[Challenge]** Create a Dataframe holding the number of birds per day (use Date.start) and plot it with date on the x-axis and number of birds on the y-axis. Hint: use `as.Date()` to convert the character date to a real date field. See this page how you can do that [Date Values](http://www.statmethods.net/input/dates.html).
 
 

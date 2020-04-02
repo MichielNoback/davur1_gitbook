@@ -1,5 +1,10 @@
 # Exercise solutions
 
+```{r}
+#this is for rounding numbers in this session
+options(digits=3)
+```
+
 ## Toolbox
 
 ### Get set up
@@ -28,9 +33,6 @@ No solution for this one.
 ### First look at functions
 
 **A**  
-
-View the help page for `paste()`. There are two variants of this function. Which? And what is the difference between them? Use both variants to generate _exactly_ this message `"welcome to R"` from these arguments: `"welcome ", "to ", "R"`
-
 Answer: `paste()` and `paste0()`. The difference lies in the _separator_, which is an empty string in `paste0()` and one space in `paste()`. Moreover, the separator can be configured in `paste()` using the `sep = ` parameter.
 
 ```{r paste-ex-1}
@@ -39,9 +41,6 @@ paste0("welcome ", "to ", "R")
 ```
 
 **B**  
-
-What does the `abs` function do? What is returned by `abs(-20)` and what is `abs(20)`?  
-
 Answer: `abs()` returns the _absolute_ value. Simply put, a number with the minus sign removed if present.
 
 ```{r abs-ex-1}
@@ -50,9 +49,6 @@ abs(20)
 ```
 
 **C**  
-
-What does the `c` function do? What is the difference in returned value (result) of `c()` when you combine either `1`, `3` and `"a"` as arguments, or `1`, `2` and `3`? Use the function `class()` to answer this.   
-
 Answer: it combines (**c**oncatenates) its arguments into a single vector. The first example creates a "character" (text data) and the second a "numeric" (numeric data).
 
 ```{r c-ex-1}
@@ -60,6 +56,16 @@ c(1, 2, "a")
 class(c(1, 2, "a"))
 c(1, 2, 3)
 class(c(1, 2, 3))
+```
+
+
+**D**  
+
+```{r install-packages-demo-1, eval = FALSE}
+#install it. Note the quotes
+install.packages("RColorBrewer")
+#load it into your session. Note the absence of quotes
+library(RColorBrewer)
 ```
 
 
@@ -80,10 +86,93 @@ q/pi
 log10(x * y)
 ```
 
+### Vectors
 
-### Plotting rules {-}
+#### Circles {-}
 
-Since everything needs to be done in a (corona virus induced) rush, plots may be (far) from perfect. Sorry about that.
+The circumference of a circle is $2\pi\cdot r$, its surface $4\pi \cdot r^2$ and its volume $4/3 \pi\cdot r^3$.
+Given this vector of circle radiuses,
+
+```{r radiuses-defined}
+radiuses <- c(0, 1, 2, pi, 4)
+```
+
+**A**  
+Calculate their cirumference.
+
+```{r circle-circumference}
+2 * pi * radiuses
+```
+
+**B**  
+Calculate their surface.
+
+```{r circle-surface}
+4 * pi * radiuses^2
+```
+
+**C**  
+Calculate their volume.
+
+```{r circle-volume}
+4/3 * pi * radiuses^3
+```
+
+#### Creating vectors {-}
+
+Create the following vectors, as efficiently as possible. The functions `rep()`, `seq()` and `paste0()` and the colon operator `:` can be used, in any combination.
+
+
+**A**   
+`[1] 1 2 5 1 2 5`
+
+```{r create-vector-A}
+rep(c(1, 2, 5), times = 2)
+```
+
+
+**B**  
+`[1] 9 9 9 8 8 8 7 7 7 6 6 6 5 5 5`
+
+```{r create-vector-B}
+rep(9:5, each = 3)
+```
+
+**C**  
+` [1] 1 1 1 4 4 4 9 9 9 1 1 1 4 4 4 9 9 9`
+
+```{r create-vector-C}
+rep(c(1, 4, 9), times = 2, each = 3)
+```
+
+**D**  
+` [1] "1a" "2b" "3c" "4d" "5e" "1a" "2b" "3c" "4d" "5e"`
+
+```{r create-vector-D}
+rep(paste0(1:5, letters[1:5]), times = 2)
+```
+
+**E**  
+`[1] "0z"   "0.2y" "0.4x" "0.6w" "0.8v" "1u"`
+
+```{r create-vector-E}
+paste0(seq(from = 0, to = 1, length.out = 6), letters[26:21])
+```
+
+**F**  
+`[1] "505" "404" "303" "202" "101" "000"`
+```{r create-vector-F}
+paste0(5:0, 0, 5:0)
+```
+
+**G [Challenge]**  
+`[1] "0.5A5.0" "0.4B4.0" "0.3C3.0" "0.2D2.0" "0.1E1.0"`
+
+```{r create-vector-G}
+paste0(seq(from = 0.5, to = 0.1, by = -0.1),  LETTERS[1:5], 5:1, ".0")
+```
+
+
 
 ### Stair walking and heart rate 
 
@@ -138,6 +227,8 @@ points(x = stair_height,
     lwd = 2)
 ```
 
+Yes! there is a better more efficient way to do this, but we have not dealt with that yet.
+
 ### Chickens on a diet
 
 ```{r chicken-diets1, out.width='80%', fig.asp=.75, fig.align='center'}
@@ -185,7 +276,6 @@ barplot(maxima,
 ### Discoveries 
 
 **A**    
-
 ```{r discoveries-1, out.width='80%', fig.asp=.75, fig.align='center'}
 barplot(table(discoveries),
     main = "great discoveries per year",
@@ -195,13 +285,11 @@ barplot(table(discoveries),
 ```
 
 **B**    
-
 ```{r discoveries-2, eval = FALSE}
 summary(discoveries)
 ```
 
 **C**    
-
 ```{r discoveries-3, out.width='80%', fig.asp=.75, fig.align='center'}
 plot(discoveries,
          xlab = "year",
@@ -215,7 +303,6 @@ plot(discoveries,
 ### Lung cancer    
 
 **A**    
-
 ```{r lung-cancer-1, out.width='80%', fig.asp=.75, fig.align='center'}
 total.col <- "red"
 m.col <- "blue"
@@ -238,7 +325,6 @@ legend(
 ```
 
 **B**   
-
 Create a combined boxplot of the three time-series. Are they indicative of a normal distribution? Are there outliers? If so, can you figure out when this occurred?
 
 ```{r lung-cancer-2, out.width='80%', fig.asp=.75, fig.align='center'}
@@ -253,7 +339,6 @@ boxplot(
 ### Creating factors
 
 **A**  
-
 ```{r eval = FALSE}
 animal_risk <- c(2, 4, 1, 1, 2, 4, 1, 4, 1, 1, 2, 1)
 animal_risk_factor <- factor(x = animal_risk,
@@ -264,7 +349,6 @@ barplot(table(animal_risk_factor))
 ```
 
 **B**  
-
 ```{r}
 set.seed(1234)
 wealth_male <- sample(x = letters[1:4], 
@@ -307,7 +391,6 @@ barplot(bar_data, beside = T, legend = rownames(bar_data))
 ### A dictionary with a named vector
 
 **A**    
-
 ```{r named-vector-1}
 codons <- c("G", "P", "K", "S")
 names(codons) <- c("GGA", "CCU", "AAA", "AGU")
@@ -322,7 +405,6 @@ print(my_prot)
 ```
 
 **B**    
-
 ```{r eval = F}
 nuc_weights <- c(491.2, 467.2, 507.2, 482.2)
 names(nuc_weights) <- c('A', 'C', 'G', 'U')
@@ -340,7 +422,6 @@ mol_weight
 ### airquality 
 
 **A**    
-
 ```{r airquality-1, out.width='80%', fig.asp=.75, fig.align='center'}
 plot(airquality$Solar.R, airquality$Temp,
          main = "Temperature as a function of Solar radiation",
@@ -350,7 +431,6 @@ abline(lm(airquality$Temp ~ airquality$Solar.R), col = "blue", lwd = 2)
 ```
 
 **B**    
-
 ```{r airquality-2, out.width='80%', fig.asp=.75, fig.align='center'}
 with(airquality, 
         boxplot(Temp ~ Month, 
@@ -360,7 +440,6 @@ with(airquality,
 ```
 
 **C**    
-
 ```{r airquality-3, out.width='80%', fig.asp=.75, fig.align='center'}
 #first create Temp Celcius column:
 #(°F    -    32)    x    5/9 = °C
@@ -370,7 +449,6 @@ airquality[airquality$Temp.C == min(airquality$Temp.C), c("Temp.C", "Month", "Da
 ```
 
 **D**    
-
 ```{r airquality-4, out.width='80%', fig.asp=.75, fig.align='center'}
 hist(airquality$Wind, xlab = "Wind speed (mph)")
 abline(v = mean(airquality$Wind), col = "blue", lwd = 2)
@@ -378,7 +456,6 @@ abline(v = median(airquality$Wind), col = "red", lwd = 2)
 ```
 
 **E**    
-
 ```{r airquality-5, out.width='80%', fig.asp=.75, fig.align='center'}
 pairs(airquality, panel = panel.smooth)
 ```
@@ -402,7 +479,6 @@ bird_obs <- read.table("data/Observations-Data-2014.csv",
 
 
 **A**    
-
 ```{r, eval = FALSE}
 ## look at the loaded data structure
 str(bird_obs)
@@ -411,19 +487,16 @@ str(bird_obs)
 Apparently, all variables are loaded as a factor; also the `Date.start`, `Date.end` (should be dates of course), `Number` (should be `integer`) and `Notes` (should be `character`) columns. In the original column names there are spaces and these are replaced by dots. First column `Species..` is a serial number and the second `Species` is the English species name.
 
 **B**    
-
 ```{r, eval = FALSE}
 nrow(bird_obs)
 ```
 
 **C**    
-
 ```{r, eval = FALSE}
 class(bird_obs$Number)
 ```
 
 **D**    
-
 ```{r}
 bird_obs$Count <- as.integer(bird_obs$Number)
 head(bird_obs[, c(4, 8, 14)], n=50)
@@ -432,7 +505,6 @@ head(bird_obs[, c(4, 8, 14)], n=50)
 The factor **_levels_** have been converted into integers, not the original values!
 
 **E**    
-
 ```{r}
 #read with as.is argument
 bird_obs <- read.table("data/Observations-Data-2014.csv",
@@ -454,14 +526,12 @@ bird_obs$Count <- as.integer(bird_obs$Number)
 Note that there are other ways to achieve this, e.g. the `colClasses` argument to `read.table()`.
 
 **F**    
-
 ```{r, eval = FALSE}
 head(bird_obs[, c(4, 8, 14)], n=50)
 sum(is.na(bird_obs$Count))
 ```
 
 **G**    
-
 ```{r, eval = FALSE}
 #What is the maximum number of birds in a single sighting?
 bird_obs[which(bird_obs$Count == max(bird_obs$Count, na.rm = T)), ]
@@ -476,7 +546,6 @@ median(bird_obs$Count, na.rm = T)
 ```
 
 **H**    
-
 ```{r bird-obs-1, out.width='80%', fig.asp=.75, fig.align='center'}
 hist(bird_obs$Count)
 ```
@@ -497,7 +566,6 @@ polygon(d, col = "red", border = "blue")
 ```
 
 **I**    
-
 ```{r, eval = FALSE}
 #How many different species were recorded?
 length(unique(bird_obs$Common.name))
@@ -513,7 +581,6 @@ unique(bird_obs[bird_obs$Genus == "Puffinus", "Common.name"])
 ```
 
 **J**    
-
 ```{r, eval = FALSE}
 #these are the values that need to be rescued:
 table(bird_obs[is.na(bird_obs$Count), "Number"])
@@ -531,7 +598,6 @@ gsub("(\\d+)-(\\d+)", "\\1", tmp)
 ### Restriction enzymes
 
 **A**  
-
 ```{r eval = FALSE}
 pacI_re <- "TTAATTAA"
 patterns <- c("T{2}A{2}T{2}A{2}",
@@ -543,7 +609,6 @@ for(ptrn in patterns){
 ```
 
 **B**  
-
 ```{r eval = FALSE}
 sfiI_re <- "GGCCACGTAGGCC"
 patterns <- c("G{2}C{2}[GATC]{5}G{2}C{2}",
@@ -557,7 +622,6 @@ for(ptrn in patterns){
 ### Prosite Patterns  
 
 **A**  
-
 PS00211:  
 "[LIVMFYC]-[SA]-[SAPGLVFYKQH]-G-[DENQMW]-[KRQASPCLIMFW]-[KRNQSTAVM]-[KRACLVM]-[LIVMFYPAN]-{PHY}-[LIVMFW]-[SAGCLIVP]-{FYWHP}-{KRHP}-[LIVMFYWSTA]." 
 
@@ -566,7 +630,6 @@ PS00211<- "[LIVMFYC][SA][SAPGLVFYKQH]G[DENQMW][KRQASPCLIMFW][KRNQSTAVM][KRACLVM]
 ```
 
 **B**  
-
 PS00018: 
 "D-{W}-[DNS]-{ILVFYW}-[DENSTG]-[DNQGHRK]-{GP}-[LIVMC]-[DENQSTAGC]-x(2)- [DE]-[LIVMFYW]." 
 
@@ -583,20 +646,17 @@ fasta_headers <- readLines("./data/fasta_headers.txt")
 ```
 
 **A**  
-
 ```{r eval = FALSE}
 str_match(fasta_headers, "\\[(.+)\\]")[, 2]
 str_match(fasta_headers, "\\[([[:alpha:]]+ [[:alpha:]]+) ?(.+)?\\]")[, 2]
 ```
 
 **B**  
-
 ```{r eval = FALSE}
 str_match(fasta_headers, ">([[:alpha:]]{2,3}\\|\\w+)\\|")[, 2]
 ```
 
 **C**  
-
 ```{r eval = FALSE}
 str_match(fasta_headers, ">.+\\| (.+?) \\[")[, 2]
 ```
@@ -739,20 +799,17 @@ whale_selenium <- read.table(whale_sel_url,
 ```
 
 **A**    
-
 ```{r, eval = FALSE}
 apply(X = whale_selenium, MARGIN = 2, FUN = mean)
 ```
 
-**B** 
-
+**B**  
 ```{r, eval = FALSE}
 apply(X = whale_selenium, MARGIN = 2, FUN = sd)
 ```
 
 
 **C**    
-
 ```{r, eval = FALSE}
 my.sem <- function(x) {
         sem <- sd(x) / sqrt(length(x))
@@ -761,7 +818,6 @@ apply(X = whale_selenium, MARGIN = 2, FUN = my.sem)
 ```
 
 **D**    
-
 ```{r whale-selenium-hist, out.width='80%', fig.asp=.75, fig.align='center'}
 whale_selenium$ratio <- apply(X = whale_selenium, 
             MARGIN = 1, 
@@ -773,8 +829,7 @@ hist(whale_selenium$ratio,
          main = "Histogram of Tooth / Liver Selenium ratios")
 ```
 
-**E** 
-
+**E**  
 Inline expressions are like this: `r mean(cars$speed)` MpH.
 
 
@@ -783,7 +838,6 @@ Inline expressions are like this: `r mean(cars$speed)` MpH.
 This exercise revolves around the `ChickWeight` dataset of the built-in `datasets` package. 
 
 **A**    
-
 ```{r}
 #MANY WAYS TO GET THERE
 length(split(ChickWeight, ChickWeight$Chick))
@@ -795,22 +849,19 @@ length(unique(ChickWeight$Chick))
 nrow(aggregate(x = ChickWeight, by = list(ChickWeight$Chick), FUN = function(x){x}))
 ```
 
-**B**    
-
+**B**  
 ```{r}
 aggregate(formula = weight ~ Diet, data=ChickWeight, FUN = mean, na.rm = T)
 #OR
 aggregate(x = ChickWeight$weight, by = list(Diet = ChickWeight$Diet), FUN = mean, na.rm = T)
 ```
 
-**C**    
-
+**C**  
 ```{r}
 coplot(weight ~ Time | Diet, data = ChickWeight, panel = panel.smooth)
 ```
 
-**D**    
-
+**D**  
 ```{r}
 #A naive for-loop here - is this the best solution?
 ChickWeight$weight_gain <- NA #create the column with missing values
@@ -822,8 +873,7 @@ for (i in 1:nrow(ChickWeight)) {
 }
 ```
 
-**E**    
-
+**E**  
 ```{r eval = F}
 local_file <- "ChickWeight_weight_gain.Rdata"
 download.file(paste0("https://github.com/MichielNoback/davur1_gitbook/raw/master/data/", local_file), local_file)
@@ -840,8 +890,7 @@ aggregate(formula = weight_gain ~ Diet, data = ChickWeight, FUN = median)
 sapply(split(ChickWeight[, "weight_gain"], ChickWeight$Diet), sd, na.rm = T)
 ```
 
-**F**    
-
+**F**  
 ```{r weight-gain-boxplot, out.width='80%', fig.asp=.75, fig.align='center'}
 boxplot(weight_gain ~ Diet, data = ChickWeight)
 ```
@@ -849,8 +898,7 @@ boxplot(weight_gain ~ Diet, data = ChickWeight)
 
 ### Food constituents 
 
-**A**    
-
+**A**  
 ```{r}
 foods <- read.table(
         "https://raw.githubusercontent.com/MichielNoback/davur1_gitbook/master/data/food_constituents.txt", header = T)
@@ -861,14 +909,12 @@ levels(foods$Type)
 table(foods$Type)
 ```
 
-**B**    
-
+**B**  
 ```{r eval = FALSE}
 mean(foods[foods$Type == "chocolate", "kcal"])
 ```
 
-**C**    
-
+**C**  
 ```{r eval = FALSE}
 #aggregate over Type
 mean.fat <- aggregate(formula = fat.total ~ Type, data = foods, FUN = mean)
@@ -876,16 +922,14 @@ mean.fat <- aggregate(formula = fat.total ~ Type, data = foods, FUN = mean)
 mean.fat[order(mean.fat$fat.total, decreasing = T)[1], ]
 ```
 
-**D**    
-
+**D**  
 ```{r eval = FALSE}
 mean.energy <- aggregate(formula = kcal ~ Type, data = foods, FUN = mean)
 mean.energy[order(mean.energy$kcal)[1], ]
 mean.energy[order(mean.energy$kcal, decreasing = T)[1], ]
 ```
 
-**E**    
-
+**E**  
 ```{r foods-boxplot, out.width='80%', fig.asp=.75, fig.align='center'}
 #more verbose means possible; this efficient way demonstrating use of %in%
 foods$solid.state <- !foods$Type %in% c("milk", "beverage")
@@ -896,15 +940,13 @@ boxplot(formula = carb.sugar ~ solid.state,
                 ylab = "Sugar (g/100g product)")
 ```
 
-**F**    
-
+**F**  
 \[NO WORKED SOLUTION HERE\]
 
 
 
 ### Urine properties
 
-The [urine specimens dataset](https://github.com/MichielNoback/datasets/tree/master/urine) contains a `readme.txt` file and a data file (`urine.csv`; direct link: "https://raw.githubusercontent.com/MichielNoback/datasets/master/urine/urine.csv"). Study the readme to get an idea of the data. Download the file like this:
 
 ```{r download-urine-data-2}
 urine_file_name <- "urine.csv"
@@ -914,34 +956,19 @@ download.file(url = url, destfile = local_name)
 ```
 
 **A**  
-
-Load the data into a dataframe with name `urine`.
-
 ```{r load-urine-data}
-(urine <- read.table(local_name, 
+urine <- read.table(local_name, 
                      sep = ",",
-                     header = TRUE))
+                     header = TRUE)
 ```
 
 **B**  
-
-Convert the column `r` into a factor with two levels: `yes` and `no`, and give it a better name: `ox_crystals`.
-
 ```{r convert-column-r}
 names(urine)[2] <- "ox_crystals"
 urine$ox_crystals <- factor(urine$ox_crystals, levels = c(0, 1), labels = c("no", "yes"))
 ```
 
 **C**  
-
-Using `apply()`, report the mean and standard deviation of the numeric columns only. Give these with only two decimal digits. Use a _named vector_ so you get this output:
-
-```
-     gravity   ph   osmo  cond   urea calc
-mean    1.02 6.03 615.04 20.90 266.41 4.14
-sd      0.01 0.72 238.25  7.95 131.25 3.26
-```
-
 ```{r urine-mean-and-sd-1}
 mean_sd <- function(x) {
     # returns a named vector
@@ -952,9 +979,6 @@ apply(X = urine[, 3:8], MARGIN = 2, FUN = mean_sd)
 ```
 
 **D**  
-
-Using `aggregate`, report the mean of the numeric columns, but split over the `ox_crystals` variable levels. Which variables seem most likely candidates for a relation with oxalate crystal formation.
-
 ```{r urine-mean-and-sd-2}
 aggregate(cbind(gravity, ph, osmo, cond, urea, calc) ~ ox_crystals, 
           data = urine, 
@@ -962,32 +986,19 @@ aggregate(cbind(gravity, ph, osmo, cond, urea, calc) ~ ox_crystals,
 ```
 
 **E**  
-
-Use the `pairs()` plotting function to explore the pairwise relationships between the different numeric variables  
-
 ```{r}
 pairs(urine[, 3:8])
 ```
 
 **F**  
-
-Use the `heatmap.2()` and `cor()` functions together to create a heatmap of pairwise variable correlations. You will need to install package `gplots` for the heatmap.2 function. Alternatively, use `heatmap()` from base R.
-
-Which visualization do you prefer - the `pairs()` or the `heatmap.2()`?
-
 ```{r}
 #install.packages("gplots")
 library("gplots")
-
 cormat <- cor(urine[, 3:8], use = "complete.obs")
 heatmap.2(cormat, col = bluered(100), trace = "none", density.info = "none")
 ```
 
 **G**  
-
-[**Challenge**] There does not seem to be an interesting correlation between pH and any of the other variables. Sometimes this is becuase you are not looking in enough detail. Let's dig a little further. Use `cut()` to split the pH variable into a factor with three levels:  "acidic", "neutral" and "basic" with breakpoints between them at pH 5.5 and 7. Next, use the `split()` and `lapply()` functions to calculate the mean, meadian and sd of the other numeric variables for each level of this pH factor. This exercise can of course be done in many ways. one of them is by using an `apply()` _within_ the applied function of `lapply()`.
-
-
 ```{r create-ph-factor}
 ph_factor <- cut(urine$ph, 
     breaks = c(4.5, 5.5, 7.0, 8.0), 
@@ -1028,7 +1039,6 @@ bird_obs$Count <- as.integer(bird_obs$Number)
 ```
 
 **A**    
-
 ```{r bird-counts-barplot, out.width='80%', fig.asp=.75, fig.align='center'}
 c.split <- split(x = bird_obs, f = bird_obs$County)
 c.counts <- sapply(c.split, nrow)
@@ -1039,7 +1049,6 @@ barplot(c.counts[order(c.counts, decreasing = T)],
 ```
 
 **B**    
-
 ```{r eval = FALSE}
 obs.split <- split(x = bird_obs, f = bird_obs$Observer.1)
 obs.counts <- sapply(obs.split, nrow)
@@ -1048,13 +1057,11 @@ obs.counts[order(obs.counts, decreasing = T)]
 ```
 
 **C**    
-
 ```{r eval = FALSE}
 obs.counts[order(obs.counts, decreasing = T)][1]
 ```
 
 **D**    
-
 ```{r eval = FALSE}
 g.split <- split(bird_obs, bird_obs$Genus)
 g.species <- lapply(g.split, function(x) {
@@ -1067,8 +1074,7 @@ g.order <- order(g.species.count, decreasing = T)
 g.species[g.order[1:5]]
 ```
 
-**E**    
-
+**E**  
 ```{r eval = FALSE}
 bird_obs$Date.start <- as.Date(bird_obs$Date.start, format = "%d-%b-%y")
 date.series <- aggregate(Count ~ Date.start, data = bird_obs, FUN = sum, na.rm = T)
