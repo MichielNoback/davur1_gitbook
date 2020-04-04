@@ -5,6 +5,15 @@ par(mar = c(4, 4, .1, .1))
 plot(pressure, type = 'b', pch = 19)
 ```
 
+## Embarking on Data Science
+
+The picture below represents data science in 1918: it probably tool a clerk a day to generate the figure.
+
+![](figures/influenza_1918_new_york.jpg)
+
+But disregarding the time investment: This is data science. You collect data (in this case, Influenza mortality), look for patterns and try to find underlying mechanisms that may explain the patterns (Age, Gender, Marital Status).
+
+([source](https://www.nytimes.com/2020/04/02/nyregion/spanish-flu-nyc-virus.html))
 
 ## Why do statistical programming?
 

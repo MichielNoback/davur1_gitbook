@@ -153,10 +153,81 @@ All these attributes seem to be in the range zero to one, except of course for t
 The 
 The `pox` (`r get_attribute_info("pox")`) and `erl` (`r get_attribute_info("erl")`) attributes, seem to have a really strange distribution and should be investigated further.
 
-Here a few of the attributes in a single panel. I choose histogram over boxplot or density plot because it is more fine-grained than boxplot and very easy to interpret.
+Here are all the numeric attributes in a single panel. I chose histogram over boxplot or density plot because it is more fine-grained than boxplot and very easy to interpret.
 
-```{r}
+```{r yeast-attributes-hist, fig.asp=1.4, out.width="100%", fig.cap = "Distributions of the numeric variables"}
+par(mfrow = c(4, 2))
+
+for ( attrib in colnames(yeast_data[2:9])) {
+    hist(yeast_data[, attrib],
+         main = NULL,
+         xlab = paste0(get_attribute_info(attrib), " (prob)"))
+}
+
+#reset par()
+par(mfrow = c(1, 1))
+```
+
+Here, it can be seen that the attributes "ER-retention" and "Peroxisomal" are pretty much uninformative, a problem probably largely caused by the low abundance of protiens in these classes. Surprisingly enough, the "Vacuolar" property which is also low-abundant, does not have this extreme distribution.
+
+What is also striking is that, although these attributes are probablitities of targeting signals, none (with the exception of the two low-abundance ones) show a more or less bimodal distribution as you would naively expect.
+
+### Attribute relationships
+
+Here is a quick scan of variable relationship, excluding the dependent variable. The `pairs()` function is used for that. I excluded `erl` and `pox` because they do not add information to the picture.
+
+```{r yeast-pairs-plot, fig.asp=1.4, out.width="100%", fig.cap = "Relations between the numeric variables"}
+pairs(yeast_data[c(2, 3, 4, 5, 8, 9)],
+      panel = "panel.smooth",
+      pch = 20, 
+      cex = 0.35,
+      col = rgb(0.1, 0.4, 1, alpha = 0.4))
+```
+
+
+By adding the smoother it is made clear that the only pair which shows a clear correlation is the pair `mcg` / `gvh` which actually predict the same property. Therefore it would have been very surprising indeed if they would _not_ have a correlation. The strength of this correlation -the **_R-squared_**- is this
+
+```{r correlation-mcg-gvh}
+lin_mod <- lm(yeast_data$mcg ~ yeast_data$gvh)
+summary(lin_mod)$r.squared
+```
+
+This is not very strong.
+
+### Correlations to the dependent variable
+
+As a first investigation, numeric variables are split on the location variable.
+
+```{r corr-to-dependent, fig.align = 'center', fig.asp=0.7, out.width="70%", fig.cap = "Correlations with the dependent variable"}
+library(RColorBrewer)
+colors <- RColorBrewer::brewer.pal(8, name = "Accent")
+#col = c("darkblue", "darkgreen", "magenta", )
+col_i <- 0
+for (name in names(yeast_data[2:9])) {
+    col_i <- col_i + 1
+    boxplot(yeast_data[, name] ~ yeast_data$loc,
+            xlab = NULL,
+            ylab = get_attribute_info(name),
+            col = colors[col_i])
+}
+```
+
+Quite a few of the variables correlate pretty well with the dependent variable. These do so very well: `alm`, `mit`, `erl`, `pox`. Others are not: `nuc`, `vac`, and some are ambiguous - they discriminate, but not exclusively: `mcg`, `gvh`.
+
+
+Here are some summary statistics for the numeric variables split on the dependent variable:
+
+```{r summary-stats-dep-var}
+options(digits=2)
+
+tmp <- t(aggregate( . ~ loc, data = yeast_data[, -1], FUN = mean))
+knitr::kable(tmp)
+
+tmp <- t(aggregate( . ~ loc, data = yeast_data[, -1], FUN = median))
+knitr::kable(tmp)
 
 ```
+
+
 
 

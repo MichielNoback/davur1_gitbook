@@ -203,8 +203,7 @@ legend("topleft", legend = c("series 1", "series 2"), col = c("black", "blue"), 
 Create the mentioned line plot. Do you see trends and/or patterns and if so, can you explain these?
 
 **B**  
-Create a combined boxplot of the three time-series. Are there outliers? If so, can you figure out when this occurred?
-
+Create a combined boxplot of the three time-series. Are there outliers? If so, can you figure out when this occurred, and why?
 
 ## Complex datatypes
 

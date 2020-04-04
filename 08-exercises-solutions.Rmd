@@ -325,7 +325,6 @@ legend(
 ```
 
 **B**   
-Create a combined boxplot of the three time-series. Are they indicative of a normal distribution? Are there outliers? If so, can you figure out when this occurred?
 
 ```{r lung-cancer-2, out.width='80%', fig.asp=.75, fig.align='center'}
 boxplot(
@@ -333,6 +332,21 @@ boxplot(
 )
 ```
 
+ANSWER: You can see a single outlier in the `fdeaths` set. We can identify the year by finding out when this occurred:
+
+```{r finding-outliers}
+max(fdeaths) ## 1141
+which(fdeaths == max(fdeaths)) ## index 26
+fdeaths
+```
+
+So this was February 1976. A quick Google search turned up a pdf document "CDC Influenza Surveillance" that states 
+
+> "The 1975-1976 influenza season was noteworthy because of several events. a) An H3N2 influenza virus (A/Victoria/3/75), isolated first in April 1975, caused a wide- spread epidemic late in the influenza season in the United States. Based on pneumonia- and influenza-associated mortality which peaked in February and March 1976, this was the most severe epidemic experienced by the United States since the 1968-1969 Hong Kong epidemic."
+
+([direct link](https://stacks.cdc.gov/view/cdc/287/cdc_287_DS1.pdf))
+
+As you may know, (lung) cancer patients are especially vulnerable for influenza infections.
 
 ## Complex datatypes
 
