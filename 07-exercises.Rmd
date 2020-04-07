@@ -174,7 +174,7 @@ With the data from the previous question, create a bar plot of the maximum weigh
 The R language comes with a wealth of datasets for you to use as practice materials. We will see several of these. One of these datasets is The Time-Series dataset called `discoveries` holding the numbers of "great" inventions and scientific discoveries in each year from 1860 to 1959. Type its name in the console to see it. Create plot(s) answering these questions:  
  
 **A**  
-What is the number of discoveries per year? Use the `barplot()` and `table()` functions for this.  
+What is the frequency distribution of the number of discoveries per year? Use the `barplot()` and `table()` functions for this.  
 
 **B**  
 What is the 5-number summary of discoveries per year?  

@@ -1,4 +1,4 @@
-# Basic R - plotting basics
+# Basic R - plotting
 
 ## Basic embedded plot types
 

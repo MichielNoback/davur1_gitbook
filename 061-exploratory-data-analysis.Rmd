@@ -6,9 +6,9 @@ options(digits=4)
 
 ## Introduction
 
-This chapter introduces you to the concept of Exploratory Data Analysis (EDA). In EDA a dataset is analysed with the goal of assessing its main characteristics, including its quality and usablity for subsequent statistical modelling and analysis. Data summary techniques and visualizations ore used in an EDA. There is no fixed set of activities; each dataset poses its own questions and challenges.
+This chapter introduces you to the concept of Exploratory Data Analysis (EDA). In EDA a dataset is analysed with the goal of assessing its main characteristics, including its quality and usability for subsequent statistical modelling and analysis. Data summary techniques and visualizations ore used in an EDA. There is no fixed set of activities; each dataset poses its own questions and challenges.
 
-Datasets are often expensive and time-consuming to collect, and therefore they are ususally collected with a specific goal in mind. The EDA you perform should always be with this goal on the horizon: is the dataset of sufficient quality to answer the scientific questions for which they were collected? 
+Datasets are often expensive and time-consuming to collect, and therefore they are usually collected with a specific goal in mind. The EDA you perform should always be with this goal on the horizon: is the dataset of sufficient quality to answer the scientific questions for which they were collected? 
 
 #### EDA outline {-}
 
@@ -24,7 +24,7 @@ Note that your EDA results should _always_ be accompanied by text that describes
 
 In this chapter I will demonstrate a short EDA on the "Yeast dataset" from the UCI Machine Learning repository. 
 
-It is outside the scope of this short analysis to delve too deeply in the attribute background information, but you should realise that for a real analysis this is absolutely critical: without domain knowledge the you won't have the insight to identify strange, worrying or surprising results.
+It is outside the scope of this short analysis to delve too deeply in the attribute background information, but you should realize that for a real analysis this is absolutely critical: without domain knowledge the you won't have the insight to identify strange, worrying or surprising results.
 
 
 ## EDA of the Yeast dataset
@@ -33,9 +33,9 @@ It is outside the scope of this short analysis to delve too deeply in the attrib
 
 The data were collected from the [UCI Machine Learning website](https://archive.ics.uci.edu/ml/datasets/Yeast). To ensure their continued availability the files were copied to a personal [repository](https://github.com/MichielNoback/datasets/tree/master/UCI_yeast_protein_loc).
 
-The data were accompanied by a _very_ short abstract: **_"Predicting the Cellular Localization Sites of Proteins"_**. The data description states there are 1484 instances, each with 8 attributes (variables) and a class label. The class label is the variable we wish to biuld a model for so this is the dependent variable.
+The data were accompanied by a _very_ short abstract: **_"Predicting the Cellular Localization Sites of Proteins"_**. The data description states there are 1484 instances, each with 8 attributes (variables) and a class label. The class label is the variable we wish to build a model for so this is the dependent variable.
 
-The _Attribute Information_ section descibes these variables:
+The _Attribute Information_ section describes these variables:
 
 1. Sequence Name: Accession number for the SWISS-PROT database
 2. `mcg`: McGeoch's method for signal sequence recognition.
@@ -51,7 +51,7 @@ The sequence name is not interesting in this EDA: we are interested in patterns,
 
 There seem to be two attributes (`mcg` and `gvh`) measuring the same property - the presence of a signal sequence which is the N-terminal part of a protein signalling the cellular machinery the protein should be exported.
 
-Very simply put, if this scoring system was perfect each of the attributes (except `mcg` and `gvh`) would unequivocally "assign" the protein in question to a cellular location: Cellular external matrix, membrane inserted, mitochondrial, endoplasmic reticulum lumen, peroxisomal, vacualar or nuclear.
+Very simply put, if this scoring system was perfect each of the attributes (except `mcg` and `gvh`) would unequivocally "assign" the protein in question to a cellular location: Cellular external matrix, membrane inserted, mitochondrial, endoplasmic reticulum lumen, peroxisomal, vacuolar or nuclear.
 
 The tenth variable in the data is the dependent or explanatory variable. The `yeast.names` file describes it like this:
 
@@ -70,7 +70,7 @@ Class Distribution. The class is the localization site. Please see Nakai &
   ERL (endoplasmic reticulum lumen)                    5
 ```
 
-This tells me the different localizations are by no means equally distributed; there is an overrepresentation of "cytosolic or cytoskeletal" and "nuclear" and a huge underrepresentation of especially endoplasmic reticulum lumen proteins.
+This tells me the different localizations are by no means equally distributed; there is an over representation of "cytosolic or cytoskeletal" and "nuclear" and a huge under representation of especially endoplasmic reticulum lumen proteins.
 
 ### Data loading and prepping 
 
@@ -95,7 +95,7 @@ str(yeast_data)
 
 The data seems to have been loaded correctly and, as expected since that was stated in the original data description, there are no missing data.
 
-The column names were not defined in the data file so this will be fixed first. I will create a data frame that also holds the column desciptions. I have put the data in a small text file for easy loading and editing; the attribute descriptions copied/pasted into a text file and with find/replace converted in easy to load form, and a new `label` column added for use in plotting. There were a few occurences of the `'` character which always corrupt data import into R. They were removed. 
+The column names were not defined in the data file so this will be fixed first. I will create a data frame that also holds the column descriptions. I have put the data in a small text file for easy loading and editing; the attribute descriptions copied/pasted into a text file and with find/replace converted in easy to load form, and a new `label` column added for use in plotting. There were a few occurrences of the `'` character which always corrupt data import into R. They were removed. 
 
 ```{r fix-column-names}
 attribute_info <- read.table("data/yeast_attribute_info.txt", 
@@ -168,9 +168,9 @@ for ( attrib in colnames(yeast_data[2:9])) {
 par(mfrow = c(1, 1))
 ```
 
-Here, it can be seen that the attributes "ER-retention" and "Peroxisomal" are pretty much uninformative, a problem probably largely caused by the low abundance of protiens in these classes. Surprisingly enough, the "Vacuolar" property which is also low-abundant, does not have this extreme distribution.
+Here, it can be seen that the attributes "ER-retention" and "Peroxisomal" are pretty much uninformative, a problem probably largely caused by the low abundance of proteins in these classes. Surprisingly enough, the "Vacuolar" property which is also low-abundant, does not have this extreme distribution.
 
-What is also striking is that, although these attributes are probablitities of targeting signals, none (with the exception of the two low-abundance ones) show a more or less bimodal distribution as you would naively expect.
+What is also striking is that, although these attributes are probabilities of targeting signals, none (with the exception of the two low-abundance ones) show a more or less bi-modal distribution as you would naively expect.
 
 ### Attribute relationships
 

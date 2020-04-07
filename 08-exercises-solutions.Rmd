@@ -93,7 +93,7 @@ log10(x * y)
 The circumference of a circle is $2\pi\cdot r$, its surface $4\pi \cdot r^2$ and its volume $4/3 \pi\cdot r^3$.
 Given this vector of circle radiuses,
 
-```{r radiuses-defined}
+```{r radiuses-defined2}
 radiuses <- c(0, 1, 2, pi, 4)
 ```
 
@@ -433,7 +433,7 @@ mol_weight
 ```
 
 
-### airquality 
+### Airquality 
 
 **A**    
 ```{r airquality-1, out.width='80%', fig.asp=.75, fig.align='center'}
@@ -446,11 +446,12 @@ abline(lm(airquality$Temp ~ airquality$Solar.R), col = "blue", lwd = 2)
 
 **B**    
 ```{r airquality-2, out.width='80%', fig.asp=.75, fig.align='center'}
-with(airquality, 
-        boxplot(Temp ~ Month, 
-        main = "Temperature over the months",
-        xlab = "Month",
-        ylab = "Temperature (F)"))
+with(airquality, {
+  m <- factor(airquality$Month, levels = 5:9, labels = month.abb[5:9])
+  boxplot(Temp ~ m, 
+    main = "Temperature over the months",
+    xlab = "Month",
+    ylab = "Temperature (F)")})
 ```
 
 **C**    

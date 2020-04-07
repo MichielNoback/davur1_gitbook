@@ -1,4 +1,4 @@
-# Basic R - coding basics
+# Basic R - coding
 
 ## First look at vectors, fuctions and variables
 
