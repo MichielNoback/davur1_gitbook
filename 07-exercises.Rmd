@@ -282,7 +282,7 @@ nuc_weights <- c(491.2, 467.2, 507.2, 482.2)
 ```
 
 
-### airquality 
+### Airquality 
 
 The `airquality` dataset is also one of the datasets included in the `datasets` package. We'll explore this for a few questions.
 
@@ -299,8 +299,9 @@ What date (day/month) has the lowest recorded temperature? Which the highest? Pl
 Create a histogram of the wind speeds, and add a thick blue vertical line for the value of the mean and a fat red line for the median (use `abline()` for this).
 
 **E**  
-Use the `pairs()` function with argument `panel = panel.smooth` to plot all pairwise correlations between Ozone, Solar radiation, Wind and Temperature. Which pair shows the strongest correlation in your opinion? Verify this using the `cor()` function after removing incomplete cases. Create a separate well annotated scatterplot of this pair.
+Use the `pairs()` function with argument `panel = panel.smooth` to plot all pairwise correlations between Ozone, Solar radiation, Wind and Temperature. Which pair shows the strongest correlation in your opinion? Verify this using the `cor()` function after removing incomplete cases. Create a separate well annotated scatterplot of this pair.  
 
+[**Challenge**] Through the `summary()` function you can obtain the R-squared value -the strength of the correlation- like this: `summary(your_linear_model)$r.squared`. Can you place it within the plot using the `text()` function?
 
 ### Bird observations
 
@@ -347,9 +348,9 @@ Compare the first 50 values of the Number and Count columns again. Has the conve
 **G**  
 Explore the sighting counts:
 
-- What is the maximum number of birds in a single sighting? (Use max() and which() or is.na() to solve this)
-- What is the mean sighting count
-- What is the median of the sighting count
+- Report the sighting with the maximum number of birds in a single sighting?
+- What is the mean sighting count?
+- What is the median of the sighting count?
 
 **H**  
 Is the `Count` variable a normal distributed value? You can use `hist(...)`, `table()` or `plot(density(...))` to explore this further.
@@ -363,6 +364,8 @@ Explore the species constitution:
 - What species from the genus "Puffinus" have been observed?
 
 Hint: use the function `unique()` here.
+
+[**Challenge**] The number of unique "common names" should equal the number of unique "scientific names" since each species has a common name and a scientific name. The scientific name can be generated from Genus and Species. Investigate this. Is it correct? If not, what went wrong?
 
 
 **J [Challenge]**  
@@ -495,7 +498,7 @@ You should first perform a check whether the two vectors are of equal length and
 
 #### Other distance measures {-}
 
-Extend the function of the previous assignment in such a way that a third argument is accepted, `method = `, which defaults to "euclidean". Other possible distance measures are "Manhattan" (same as "city block" and "taxicab") and Pearson correlation. Look the equations for these up in Wikipedia or some other place.
+Extend the function of the previous assignment in such a way that a third argument is accepted, `method = `, which defaults to "euclidean". Other possible distance measures are "Manhattan" (same as "city block" and "taxicab") and [**Challenge**] Pearson correlation. Look the equations for these up in Wikipedia or some other place.
 
 
 ### G/C percentage of DNA
@@ -550,7 +553,7 @@ Use `aggregate()` to get the mean weight of the chickens for the different Diets
 Use `coplot()` to plot a panel with weight as function of Time, split over Diet. 
 
 **D**  
-Add a column called `weight_gain` to the dataframe holding values for the weight gain since the last measurement. Take special care with rows marking the boundaries between individual chickens! You could consider using a traditional for loop here.
+[**Challenge**] Add a column called `weight_gain` to the dataframe holding values for the weight gain since the last measurement. Take special care with rows marking the boundaries between individual chickens! You could consider using a traditional for loop here.
 In the next course, we'll see a more efficient way of doing this.
 
 **E**  
@@ -587,7 +590,7 @@ What food category has the highest mean energy content, and which has the lowest
 **[Challenge]** Create a boxplot showing the difference in sugar content between drink and solid food.
 
 **F**  
-Assuming both unsaturated fats and sugar are bad for you, what food category do you consider the worst? Think of a means to answer this, explain it and carry it out.
+Assuming both saturated fats and sugar are bad for you, what food category do you consider the worst? Think of a means to answer this, explain it and carry it out.
 
 
 ### Urine properties

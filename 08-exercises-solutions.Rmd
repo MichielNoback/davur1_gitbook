@@ -446,13 +446,14 @@ abline(lm(airquality$Temp ~ airquality$Solar.R), col = "blue", lwd = 2)
 
 **B**    
 ```{r airquality-2, out.width='80%', fig.asp=.75, fig.align='center'}
-with(airquality, {
-  m <- factor(airquality$Month, levels = 5:9, labels = month.abb[5:9])
+with(datasets::airquality, {
+  m <- factor(Month, levels = 5:9, labels = month.abb[5:9])
   boxplot(Temp ~ m, 
     main = "Temperature over the months",
     xlab = "Month",
     ylab = "Temperature (F)")})
 ```
+
 
 **C**    
 ```{r airquality-3, out.width='80%', fig.asp=.75, fig.align='center'}
@@ -472,6 +473,8 @@ abline(v = median(airquality$Wind), col = "red", lwd = 2)
 
 **E**    
 ```{r airquality-5, out.width='80%', fig.asp=.75, fig.align='center'}
+##remove temp celcius agan
+airquality$Temp.C <- NULL
 pairs(airquality, panel = panel.smooth)
 ```
 
@@ -479,6 +482,20 @@ Calculate pairwise correlation.
 ```{r airquality-cor, eval = FALSE}
 cor(na.omit(airquality))
 ```
+
+The Ozone~Temp pair has the strongest correlation. A scatterplot of this pair:
+
+```{r airquality-strongest-corr, fig.cap = "Ozone dependency on Temp"}
+plot(airquality$Ozone ~ airquality$Temp,
+     xlab = "Temperature (F)",
+     ylab = "Ozone (ppb)",
+     col = "blue")
+ozone_wind_lm <- lm(airquality$Ozone ~ airquality$Temp)
+r_squared <- round(summary(ozone_wind_lm)$r.squared, 2)
+abline(ozone_wind_lm, col = "red", lwd = 2)
+text(x = 60, y = 125, labels = paste0("R^2 = ", r_squared))
+```
+
 
 
 ### Bird observations
@@ -521,7 +538,7 @@ The factor **_levels_** have been converted into integers, not the original valu
 
 **E**    
 ```{r}
-#read with as.is argument
+#best is to get it right from the start: read with as.is argument
 bird_obs <- read.table("data/Observations-Data-2014.csv",
                                 sep=";",
                                 head=T,
@@ -530,6 +547,8 @@ bird_obs <- read.table("data/Observations-Data-2014.csv",
                                 comment.char = "",
                                 as.is = c(1, 6, 7, 8, 13))
 str(bird_obs)
+##alternatively, convert it after loading:
+#bird_obs$Count <- as.numeric(as.character(bird_obs$Number))
 ```
 
 Convert Number column to Count of integers.
@@ -549,7 +568,8 @@ sum(is.na(bird_obs$Count))
 **G**    
 ```{r, eval = FALSE}
 #What is the maximum number of birds in a single sighting?
-bird_obs[which(bird_obs$Count == max(bird_obs$Count, na.rm = T)), ]
+
+bird_obs[bird_obs$Count == max(bird_obs$Count, na.rm = T), ]
 ##OR
 bird_obs[!is.na(bird_obs$Count) & bird_obs$Count == max(bird_obs$Count, na.rm = T), ]
 
@@ -580,6 +600,14 @@ plot(d, main = "density of log-transformed Counts")
 polygon(d, col = "red", border = "blue")
 ```
 
+The Shapiro test gives us a numeric indication of the fit to a normal distribution:
+
+```{r bird-obs-count-shapiro}
+shapiro.test(bird_obs$Count)
+```
+
+The P-value -way below 0.05- indicates this is not a normal distribution. But we've seen that already of course.
+
 **I**    
 ```{r, eval = FALSE}
 #How many different species were recorded?
@@ -594,6 +622,45 @@ bird_obs[bird_obs$Genus == "Puffinus", c(2, 3, 4, 6, 14)]
 #the species
 unique(bird_obs[bird_obs$Genus == "Puffinus", "Common.name"])
 ```
+The challenge
+
+```{r bird-obs-names-challenge}
+common_names <- unique(bird_obs$Common.name)
+scientific_names <- unique(paste0(bird_obs$Genus, " ", bird_obs$Species))
+paste0("number of common names: ", length(common_names), "; number of scientific names: ",  length(scientific_names))
+```
+
+So there is something fishy going on.
+My guess is that one more species has two common names for two _subspecies_ where, of course, there will be only one scientific species name. Which? Dunno. Can you find out?  
+
+OK, I couldn't help myself. I do NOT expect you to be able to do serious mangling like this at the end of this course!
+
+```{r investigate-birdnames-further}
+scientific_all <- paste0(bird_obs$Genus, " ", bird_obs$Species)
+##combine scientific and common andf make unique
+combined <- unique(paste0(scientific_all, ":", bird_obs$Common.name))
+#split it again, and convert to dataframe (strsplit gives a list)
+combined_split <- strsplit(x = combined, split = ":")
+combined_split <- as.data.frame(do.call(rbind, combined_split))
+#count frequencies of Scinetific names
+combined_split_table <- as.data.frame(table(combined_split[,1]))
+#where is the count above 1?
+combined_split_table[combined_split_table$Freq > 1, ]
+```
+
+And which are tehse as Common Name?
+
+```{r}
+species_sel <- combined_split_table[combined_split_table$Freq > 1, ]$Var1
+species_sel
+
+combined_split[combined_split$V1 %in% species_sel, ]
+```
+
+Ahhh simple typos, for 3 out of 5, and data entering errors: The cause of so many data analysis problems. Scientific name _Pterodroma ultima_ is certainly not that of the Mute Swan: a data entering error, and the same counts for _Tachycineta bicolor_: it is the name of the Tree Swallow. 
+
+
+
 
 **J**    
 ```{r, eval = FALSE}
@@ -759,8 +826,27 @@ distance <- function(p, q) {
 
 #### Other distance measures {-}
 
-**`[NO SOLUTION YET]`**
 
+```{r other-distance-measures}
+my_distance <- function(p, q, method = "euclidean") {
+  if (! (is.numeric(p) & is.numeric(q))) {
+    stop("One or both of the vectors is not numeric")
+  }
+  if (length(p) != length(q)) {
+    stop("Vectors are not of equal length")
+  }
+  if (method == "euclidean") {
+    return(sqrt(sum((p - q)^2)))
+  }
+  else if (method == "manhattan") {
+    return(sum(abs(p-q)))
+  }
+  else {
+    stop(paste0("Method not found: ", method))
+  }
+}
+my_distance(c(0,0,0), c(1, 1, 1))
+```
 
 
 ### G/C percentage of DNA
@@ -877,6 +963,8 @@ coplot(weight ~ Time | Diet, data = ChickWeight, panel = panel.smooth)
 ```
 
 **D**  
+This is the "naive" solution:
+
 ```{r}
 #A naive for-loop here - is this the best solution?
 ChickWeight$weight_gain <- NA #create the column with missing values
@@ -886,6 +974,23 @@ for (i in 1:nrow(ChickWeight)) {
                 ChickWeight[i, "weight_gain"] <- ChickWeight$weight[i] - ChickWeight$weight[i-1] 
         }
 }
+```
+
+This is the most efficient way of dealing with this in base R. Function `do.call()` is way out of scope for this course!
+
+```{r}
+weight_gain <- function(x) {
+    #x is a dataframe
+    leaded <- c(x$weight)
+    lagged <- c(NA, x$weight[1:(length(x$weight)-1)])
+    x$gain <- leaded - lagged
+    x
+}
+
+split_cw <- split(x = ChickWeight, f = ChickWeight$Chick)
+new_cw <- do.call(rbind, lapply(X = split_cw, FUN = weight_gain))
+
+head(new_cw)
 ```
 
 **E**  
