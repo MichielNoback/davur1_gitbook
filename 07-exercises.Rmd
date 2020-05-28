@@ -371,6 +371,36 @@ Generate a **bar** plot with the following properties:
 - Plot the mean absorbance on the Y-axis.  
 - Bars should have a green color.  
 
+### HPLC data
+
+The data below are from an educational experiment "Thymol quantification in Thyme".
+This data are obtained by a reverse-phase HPLC method using thymol in a standard curve. Peak areas were calculated using an integrator device. Note that peak areas are dimensionless. The concentration thymol is in μg/ml.
+
+- co = concentration
+- pa = peak area
+
+```{r}
+co <- c(100,	100,	75,	75,	50,	50,	25,	25,	10,	10,	5, 5)
+pa <- c(1969017,	1858012,	1399762,	1449423,	963014,	832137,	467856,	562012,	200123,	145545,	94567,	64752)
+```
+
+**A** 
+
+Add the vectors to a dataframe named `hplc_data`. Use appropriate and clear column names.
+
+**B** 
+
+The concentrations are in descending order. Use `order()` to sort the dataframe so that the concentrations are in ascending order.
+
+**C** 
+
+Generate a scatter plot with the following settings:
+- Title: "Peak area as a function of thymol concentration"
+- Axis labels with clear indicated quantities and units.
+- Datapoints should be visible (no connector lines).
+- Datapoints should be blue
+- Add a red colored linear regression line with a lineweigth of 2.
+
 
 ### Airquality 
 
@@ -392,6 +422,35 @@ Create a histogram of the wind speeds, and add a thick blue vertical line for th
 Use the `pairs()` function with argument `panel = panel.smooth` to plot all pairwise correlations between Ozone, Solar radiation, Wind and Temperature. Which pair shows the strongest correlation in your opinion? Verify this using the `cor()` function after removing incomplete cases. Create a separate well annotated scatterplot of this pair.  
 
 [**Challenge**] Through the `summary()` function you can obtain the R-squared value -the strength of the correlation- like this: `summary(your_linear_model)$r.squared`. Can you place it within the plot using the `text()` function?
+
+
+### File reading practice
+
+The files in the [data/file_reading](data/file_reading) directory contain some (simulated) gene-array data. The dataset contains a selection of induced transcripts after some stimulus. The columns represent:  
+
+- the mRNA entry  
+- fold induction after some stimulus  
+- the protein entry number  
+- protein length in number of amino acids of the corresponding NP entry  
+- the protein family the protein belongs to  
+- the predicted cellular localization  
+
+Whatever the contents of a file, you always need to address (some of) these questions:
+
+- Are there comment lines at the top?  
+- Is there a header line with column names?  
+- What is the column separator?  
+- Are there quotes around character data?  
+- How are missing values encoded?  
+- How are numeric values encoded?  
+- What is the type in each column?  
+
+Also: read the help for the `read.table` function carefully.
+
+
+Read the content of the each file in the `file_reading` directory into a dataframe object and assign it to the variable name `df`. There are 15 different files to practice your file loading skills.
+
+
 
 ### Bird observations
 
