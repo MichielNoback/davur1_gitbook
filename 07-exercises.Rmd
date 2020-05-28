@@ -426,7 +426,7 @@ Use the `pairs()` function with argument `panel = panel.smooth` to plot all pair
 
 ### File reading practice
 
-The files in the [data/file_reading](data/file_reading) directory contain some (simulated) gene-array data. The dataset contains a selection of induced transcripts after some stimulus. The columns represent:  
+The files in this online folder on  [github](https://github.com/MichielNoback/davur1_gitbook/tree/master/data/file_reading) directory contain some (simulated) gene-array data. The dataset contains a selection of induced transcripts after some stimulus. The columns represent:  
 
 - the mRNA entry  
 - fold induction after some stimulus  
@@ -450,7 +450,15 @@ Also: read the help for the `read.table` function carefully.
 
 Read the content of the each file in the `file_reading` directory into a dataframe object and assign it to the variable name `df`. There are 15 different files to practice your file loading skills.
 
+You don't need to download them manually; simply use this:
 
+```{reval = FALSE}
+download.file(url = "https://raw.githubusercontent.com/MichielNoback/davur1_gitbook/master/data/file_reading/file01.txt",
+              destfile = "file01.txt")
+```
+
+Then you'll have the file in the current working directory.
+Replace the file number as needed.
 
 ### Bird observations
 
