@@ -1019,9 +1019,7 @@ combined_split[combined_split$V1 %in% species_sel, ]
 Ahhh simple typos, for 3 out of 5, and data entering errors: The cause of so many data analysis problems. Scientific name _Pterodroma ultima_ is certainly not that of the Mute Swan: a data entering error, and the same counts for _Tachycineta bicolor_: it is the name of the Tree Swallow. 
 
 
-
-
-**J**    
+**J**  
 ```{r, eval = FALSE}
 #these are the values that need to be rescued:
 table(bird_obs[is.na(bird_obs$Count), "Number"])
@@ -1032,6 +1030,85 @@ tmp <- bird_obs$Number[1:50]
 tmp
 gsub("(\\d+)-(\\d+)", "\\1", tmp)
 ```
+
+## Functions
+
+### The `cut()` function I
+
+```{r}
+fold_change <- c(0.10, 8.50, 0.95, 56.08, 0.90, 99.15, 1.00, 0.01, 0.65, 1.10, 2.34, 62.2)
+```
+
+**A**  
+
+```{r}
+induc_type <- cut(fold_change, 
+                  breaks = c(0, 0.9, 1.1, Inf), 
+                  labels = c("repression", "no_change", "induction"), 
+                  right = FALSE,
+                  ordered_result = T)
+induc_type
+```
+
+**B**  
+
+```{r}
+induction <- data.frame(fold_induction = fold_change, 
+                        induction_type = induc_type)
+```
+
+**C**  
+
+```{r}
+plot(induction$induction_type,
+     main = "Gene expression after dihydrotestosterone treatment.",
+     ylab = "Number of genes",
+     names = c("repressed", "no change", "induced"),
+     col = "blue")
+```
+
+
+### The `cut()` function II
+
+```{r eval = F}
+remote_location <- "https://raw.githubusercontent.com/MichielNoback/davur1_gitbook/master/data/gene_expression_data.txt"
+read.table(remote_location,  )
+```
+
+**A**  
+
+````{r eval = F}
+gene_array <- read.table(
+    remote_location,
+    header = T,
+    sep = ",",
+    dec = ".",
+    na.strings = "",
+    as.is = c(1, 3))
+```
+
+**B**  
+
+```{r eval = F}
+induction_repression <- cut(gene_array$fold_change,
+  breaks = c(0, 9, 1.1,  Inf), 
+  right = F,
+  labels = c("repression", "no_change", "induction"),
+  ordered_result = T)
+gene_array$induction_repression <-induction_repression
+```
+
+**C**  
+
+```{r eval = F}
+plot(gene_array$induction_repression,
+     main = "Gene expression after dihydrotestosterone treatment",
+     ylab = "number of genes",
+     ylim = c(0, 600),
+     names = c("repressed", "no change", "induced"),
+     col = "blue")
+```
+
 
 
 ## Regular Expressions
@@ -1124,6 +1201,41 @@ my_sd <- function(x) {
 }
 ```
 
+#### Maximum {-}
+
+```{r eval = FALSE}
+set.seed(123) 
+my_nums <- sample(10000, 1000)
+my_max <- function(x) {
+    max_val <- 0
+    for (i in my_nums) {
+        if (i > max_val) {
+            max_val = i
+        }
+    }
+    return(max_val)
+}
+```
+
+### Find match locations {-}
+
+```{r eval = FALSE}
+where_is_it <- function(x, look_for) {
+    found <- integer(0)
+    for (i in 1:length(x)) {
+        elmnt <- x[i]
+        if (elmnt == look_for) {
+            found <- c(found, i)
+        }
+    }
+    return(found)
+}
+x <- c("Pro", "Glu", "Lys", "Pro", "Ser")
+where_is_it(x, "Pro")
+##expected:
+#[1] 1 4
+```
+
 
 #### Median {-}     
 
@@ -1139,6 +1251,45 @@ my_median <- function(x) {
         return(my_median)
 }
 ```
+
+
+### Count odd and even numbers
+
+```{r eval = FALSE}
+count_odd_even <- function(x) {
+    evens <- sum(x %% 2 == 0)
+    odds <- sum(x %% 2 == 1)
+    #OR, more efficient
+    #odds <- length(x) - evens
+    tmp <- c(even = evens, odd = odds)
+    return(tmp)
+}
+count_odd_even(c(1,2,3,4,5,5))
+```
+
+
+### Add column compared to mean
+
+```{r eval = FALSE}
+add_compared_to_mean <- function (df, name) {
+    if (! is.data.frame(df)) {
+        stop(paste0("'", df, "' is not a dataframe."))
+    }
+    if(! name %in% colnames(df)) {
+        stop(paste0("'", name, "' is not an existing column."))
+    }
+    if(! is.numeric(df[, name])) {
+        stop(paste0("'", name, " is not a numeric column."))
+    }
+    the_col <- df[, name]
+    tmp <- ifelse(the_col > mean(the_col), "greater", "less")
+    df$compared_to_mean <- tmp
+    return(df)
+}
+my_df <- data.frame(a = c(2, 4, 2, 3, 4, 3, 1, 5), b = rep(c("x", "y"), 4))
+add_compared_to_mean(my_df, "a")
+```
+
 
 
 ### Interquantile ranges
@@ -1162,10 +1313,6 @@ interquantile_range(tst) # 0 to 1
 interquantile_range(tst, 0.25, 0.75) # custom
 #interquantile_range("foo") # error!
 ```
-
-Perform some tests on the arguments to make a robust method: are all arguments numeric?
- 
-To test you method, you can compare `interquantile_range(some_vector, 0.25, 0.75)` with `IQR(some_vector)` - they should be the same.
 
 
 ### Vector distance
@@ -1205,6 +1352,30 @@ my_distance <- function(p, q, method = "euclidean") {
   }
 }
 my_distance(c(0,0,0), c(1, 1, 1))
+```
+
+### Quadratic equation solver
+
+
+```{r eval = FALSE}
+abc_solver <- function(a, b, c) {
+    discriminant <- (b ^ 2) - (4 * a * c)
+    if (discriminant < 0) {
+        return("This quadratic equation can not be solved.")
+    }
+    else if (discriminant > 0) {
+        x1 <- ((-1 * b) + sqrt(discriminant)) / (2 * a)
+        x2 <- ((-1 * b) - sqrt(discriminant)) / (2 * a)
+        return(c(x1, x2))
+    }
+    else{
+        x <- (-1 * b) / (2 * a)
+        return(x)
+    }
+}
+abc_solver(a = 1, b = 2, c = 3)
+abc_solver(a = 3, b = 7, c = 4)
+abc_solver(a = 2, b = 4, c = 2)
 ```
 
 

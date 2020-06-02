@@ -528,6 +528,63 @@ Hint: use the function `unique()` here.
 **J [Challenge]**  
 This is a challenge exercise for those who like to grind their brains! Think of a strategy to "rescue" the NAs that appear after transforming "Number" to "Count". Hint: use `gsub()` or`grep()`
 
+## Functions
+
+### The `cut()` function I
+
+Suppose we have a gene expression data set of gene array data. The vector below contains the fold-change of genome-wide mRNA expression after exposure of cells to dihydrotestosterone. 
+A value above 1 means an induction of gene expression, a value below 1 means a repression of gene expression. However, we know that the accuracy of the fold induction measurements is approximately plus or minus 0.1. This means that we can set the breakpoints as follows:  
+
+- range 0 < x < 0.9 is a repression  
+- range 0.9 <= x < 1.1 is no net change  
+- range x >= 1.1 is an induction  
+
+```{r eval = F}
+fold_change <- c(0.10, 8.50, 0.95, 56.08, 0.90, 99.15, 1.00, 0.01, 0.65, 1.10, 2.34, 62.2)
+```
+
+
+**A**  
+
+Use the `cut()` function to convert the data into a factor that tells you if there is an `induction`, no net change (`no_change`) or a `repression`. Make sure that you get an ordered factor. Assign the factor to the variable `induct_type`. 
+
+**B**  
+
+Create a data frame of both vectors and assign it to `induction`. Use `fold_change` and `induction_type` as column names. 
+
+**C**  
+
+Create a well annotated plot of the induction type that shows the number of genes that are repressed, have no change or are induced upon dihydrotestosterone treatment. Bars should have a blue color. The bars should be named `repressed`, `no change`, `induced`.
+
+
+### The `cut()` function II
+
+We will use the `cut()` function on a slightly larger data set with fictitious gene array data. The text file is located [here](https://raw.githubusercontent.com/MichielNoback/davur1_gitbook/master/data/gene_expression_data.txt).You can simply use that as argument to `read.table()`:
+
+```{r eval = F}
+remote_location <- "https://raw.githubusercontent.com/MichielNoback/davur1_gitbook/master/data/gene_expression_data.txt"
+read.table(remote_location,  )
+```
+
+The columns are:
+- transcript_ID: NM_ entry number of the reference mRNA.  
+- fold_change: the same rules as in the previous exercise for repression, no change and induction apply here.  
+- family: the protein family that the gene encodes for.  
+- location: the cellular localization of the gene product.  
+
+**A**  
+
+Load the file and assign it to the variable `gene_array`.
+
+**B**  
+
+Add a column `induction_repression` to the data frame based on the fold_induction column.
+Use the `cut` function to accomplish this. The same rules apply for the breakpoints.
+
+**C**  
+
+Create a well annotated plot of the induction type that shows the number of genes that are repressed, have no change or are induced upon dihydrotestosterone treatment. Bars should be blue. The bars should be named `repressed`, `no change`, `induced`. Make sure that the bars are within the axis borders.
+
 
 ## Regular Expressions
 
@@ -613,7 +670,7 @@ Extract all protein names/descriptions.
 
 This section serves you some exercises that will help you improve your function-writing skills.
 
-### Illegal reproductions
+### Illegal reproductions  
 
 As an exercise, you will re-invent the wheel here for some statistical functions.
 
@@ -626,9 +683,55 @@ Create a function, `my_mean()`, that duplicates the R function `mean()`, i.e. ca
 Create a function, `my_sd()`, that duplicates the R function `sd()`, i.e. calculates and returns the standard deviation of a vector of numbers, without actually using `sd()`. 
 
 
+#### Maximum {-}
+
+Suppose we have some random numbers:
+
+```{r eval = FALSE}
+set.seed(123) 
+my_nums <- sample(10000, 1000)
+```
+
+The use of `set.seed()` assures that the generated random numbers will always be the same, for everyone who runs it, every time.
+
+Use a `for` loop and `if/else` flow control to find the largest number in `my_nums`. 
+Do not use the build in `max()` or `sort()` functions. 
+Put this in a function with the name `my_max` and demonstrate its use.
+You may use the build in `max()` function to verify your result.
+
+
+#### Find match locations
+
+Create a function that will report the match locations some value in a given vector. Name it `where_is_it()`.
+Use only `for()` and `if/else` to get to your solution, no functions except `c()`.
+
+So, this snippet should return the given expected reult
+
+```{r eval = FALSE}
+x <- c("Pro", "Glu", "Lys", "Pro", "Ser")
+where_is_it(x, "Pro")
+##expected:
+#[1] 1 4
+```
+
 #### Median {-}  
 
 **[Challenge]** Create a function, `my_median()`, that duplicates the R function `median()`, i.e. calculates and returns the median of a vector of numbers. This is actually a bit harder than you might expect. Hint: use the `sort()` function.
+
+### Count odd and even numbers
+
+Create a function, `count_odd_even()`, that counts the number of even and odd numbers in an input vector.
+It should return the result as a _named vector_.
+Do not make use of R base functions.
+
+### Add column compared to mean
+
+Create a function that accepts as input:  
+
+- a dataframe 
+- a column name. This column name should refer to a numeric column
+
+The function should return a copy of this dataframe with an extra column attached. The column with name 'compared_to_mean' should have values "greater" (greater than mean) or "less" (less than or equal to the mean) when compared to the indicated column. Apply a check to the users' input and stop with an appropriate error message if something is not right (not a dataframe, column does not exist, not a numeric column).
 
 
 ### Interquantile ranges
@@ -655,7 +758,25 @@ You should first perform a check whether the two vectors are of equal length and
 
 #### Other distance measures {-}
 
-Extend the function of the previous assignment in such a way that a third argument is accepted, `method = `, which defaults to "euclidean". Other possible distance measures are "Manhattan" (same as "city block" and "taxicab") and [**Challenge**] Pearson correlation. Look the equations for these up in Wikipedia or some other place.
+Extend the function of the previous assignment in such a way that a third argument is accepted, `method = `, which defaults to "euclidean". Other possible distance measures are "Manhattan" (same as "city block" and "taxicab") and [**Challenge**] Pearson correlation. 
+
+Look up the equations for these in Wikipedia or some other place.
+
+
+### Quadratic equation solver
+
+Write a function that will use the quadratic equation (ABC formula) to solve an equation in the form $ax^2 + bx + c = 0$. Call the function `abc_solver`.
+Use flow control to perform the following:  
+
+- First calculate the discriminant (you should know the equation from your math lessons). The website of Khan Academy (https://www.khanacademy.org/) gives ample review.  
+- Test if the discriminant is negative. If so, return a _warning_ message that tells the user that the equation can not be solved.  
+- Then test if the discriminant is positive. If so, there are two solutions for the equation. Return them in a _named_ vector.  
+- Then test if the discriminant is 0. If so, there is one solution for the equation. Return the solution as a _named_ vector.  
+
+Test your function for the following quadratic models:  
+- $ax^1 + 2x + 3$ (no solution)  
+- $ax^3 + 7x + 4$ (two intersections)  
+- $ax^2 + 4x + 2$ (1 intersection)  
 
 
 ### G/C percentage of DNA
